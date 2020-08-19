@@ -3,6 +3,7 @@
 // const admin = require("../middleware/admin");
 const { test } = require("../models/test");
 const { Question, validateQuestion } = require("../models/questions");
+const { modules } = require("../models/module");
 const express = require("express");
 const router = express.Router();
 
@@ -17,10 +18,11 @@ router.post("/", async (req, res) => {
   const { error } = validateQuestion(req.body);
   if (error) return res.status(400).send(error.details[0].message);
 
-  const tests = await test.findById(req.body.test);
+  const modules = await modules.findById(req.body.modules);
+  if (!modules) return res.status(404).send("module not found");
 
   const question = new Question({
-    test: tests,
+    modules: modules,
     question: req.body.question,
     A: req.body.A,
     B: req.body.B,
