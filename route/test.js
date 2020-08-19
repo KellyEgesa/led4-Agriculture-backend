@@ -7,6 +7,7 @@ var ObjectID = require("mongodb").ObjectID;
 const { modules } = require("../models/module");
 const express = require("express");
 const router = express.Router();
+var cors = require("cors");
 
 //mongoose model
 
@@ -15,7 +16,7 @@ router.get("/", async (req, res) => {
   res.send(tests);
 });
 
-router.get("/:id", async (req, res) => {
+router.get("/:id", cors(), async (req, res) => {
   const ob = ObjectID.isValid(req.params.id);
   if (!ob) return res.status(404).send("Page not found");
 
