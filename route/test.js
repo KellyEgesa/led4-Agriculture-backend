@@ -19,10 +19,10 @@ router.get("/:id", async (req, res) => {
   const ob = ObjectID.isValid(req.params.id);
   if (!ob) return res.status(404).send("Page not found");
 
-  const tests = await test.findById(req.params.id);
-  if (!tests) return res.status(404).send("Test not found");
+  const modules = await modules.findById(req.params.id);
+  if (!modules) return res.status(404).send("Module not found");
 
-  const result = await Question.find({ test: tests });
+  const result = await Question.find({ modules: modules });
   res.send(result);
 });
 
