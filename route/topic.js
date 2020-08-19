@@ -21,9 +21,11 @@ router.get("/:id", async (req, res) => {
   const topics = await topic.findById(req.params.id);
   if (!topics) return res.status(404).send("Topic not found");
 
-  const result = await modules.find({
-    topic: topics,
-  });
+  const result = await modules
+    .find({
+      topic: topics,
+    })
+    .select("-topic");
   res.send(result);
 });
 
