@@ -14,7 +14,7 @@ const modules = mongoose.model(
         },
       }),
     },
-    title: {
+    heading: {
       type: String,
       required: true,
       minlength: 2,
@@ -24,13 +24,24 @@ const modules = mongoose.model(
       type: String,
       required: true,
     },
+    url: {
+      type: String,
+      required: true,
+    },
+    added: {
+      type: String,
+      required: true,
+    },
   })
 );
 
 function validateModules(Modules) {
   const schema = Joi.object({
-    title: Joi.string().min(2).max(20).required(),
+    heading: Joi.string().min(2).max(20).required(),
     description: Joi.string().min(3).max(255).required(),
+    topic: Joi.string(),
+    url: Joi.string(),
+    added: Joi.boolean(),
   });
   return schema.validate(Modules);
 }
