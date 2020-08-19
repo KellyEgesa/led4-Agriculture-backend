@@ -14,10 +14,10 @@ module.exports = function (app) {
   app.use(cors());
   app.use("/api/pdf", PDF);
   app.use(express.json());
-  app.use("/api/test", Test);
   app.use("/api/admin", Admin);
   app.use("/api/module", Module);
   app.use("/api/questions", Questions);
   app.use("/api/topic", Topic);
   app.use("/api/user", User);
+  app.use("/api/test", Test);
 };
