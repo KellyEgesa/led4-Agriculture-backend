@@ -19,5 +19,5 @@ module.exports = function (app) {
   app.use("/api/questions", Questions);
   app.use("/api/topic", Topic);
   app.use("/api/user", User);
-  app.use("/api/test", Exam);
+  app.use("/api/exam", Exam);
 };
