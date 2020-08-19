@@ -4,29 +4,13 @@ const Joi = require("joi");
 const question = mongoose.model(
   "question",
   new mongoose.Schema({
-    test: {
+    modules: {
       type: new mongoose.Schema({
-        title: {
+        topic: {
           type: String,
           required: true,
           minlength: 2,
           maxlength: 20,
-        },
-        module: {
-          type: new mongoose.Schema({
-            topic: {
-              type: String,
-              required: true,
-              minlength: 2,
-              maxlength: 20,
-            },
-            title: {
-              type: String,
-              required: true,
-              minlength: 2,
-              maxlength: 20,
-            },
-          }),
         },
       }),
     },
@@ -50,6 +34,7 @@ function validateQuestion(question) {
     D: Joi.string().required(),
     answer: Joi.string().min(1).max(1).required(),
     description: Joi.string().required(),
+    modules: Joi.string().required(),
   });
   return schema.validate(question);
 }
