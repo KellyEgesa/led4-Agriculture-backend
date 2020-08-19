@@ -5,7 +5,7 @@ var cors = require("cors");
 const Admin = require("../route/admin");
 const Module = require("../route/module");
 const Questions = require("../route/questions");
-const Test = require("../route/test");
+const Exam = require("../route/test");
 const Topic = require("../route/topic");
 const User = require("../route/user");
 const PDF = require("../route/pdf");
@@ -19,5 +19,5 @@ module.exports = function (app) {
   app.use("/api/questions", Questions);
   app.use("/api/topic", Topic);
   app.use("/api/user", User);
-  app.use("/api/test", Test);
+  app.use("/api/test", Exam);
 };

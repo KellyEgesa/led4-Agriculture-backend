@@ -21,7 +21,7 @@ router.get("/:id", async (req, res) => {
   if (!ob) return res.status(404).send("Page not found");
 
   const moduless = await modules.findById(req.params.id);
-  if (!moduless) return res.status(404).send("Test not found");
+  if (!moduless) return res.status(404).send("Module not found");
 
   res.send(moduless);
 });
