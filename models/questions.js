@@ -27,14 +27,13 @@ const question = mongoose.model(
 
 function validateQuestion(question) {
   const schema = Joi.object({
-    question: Joi.string().min(2).max(25).required(),
+    question: Joi.string().min(2).required(),
     A: Joi.string().required(),
     B: Joi.string().required(),
     C: Joi.string().required(),
     D: Joi.string().required(),
     answer: Joi.string().min(1).max(1).required(),
     description: Joi.string().required(),
-    modules: Joi.string().required(),
   });
   return schema.validate(question);
 }
