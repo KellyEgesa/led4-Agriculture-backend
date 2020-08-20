@@ -34,6 +34,7 @@ function validateQuestion(question) {
     D: Joi.string().required(),
     answer: Joi.string().min(1).max(1).required(),
     description: Joi.string().required(),
+    modules: Joi.string().required(),
   });
   return schema.validate(question);
 }
