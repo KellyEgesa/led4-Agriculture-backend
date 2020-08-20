@@ -13,6 +13,7 @@ const Trial = require("../route/trial");
 
 module.exports = function (app) {
   app.use(cors());
+  app.options("*", cors());
   app.use("/api/pdf", PDF);
   app.use(express.json());
   app.use("/api/test", Test);
