@@ -23,19 +23,19 @@ router.get("/:id", async (req, res) => {
   if (!moduless) return res.status(404).send("Module not found");
 
   const result = await Question.find({ modules: moduless });
-  res.send(result).select("-answer");
+  res.send(result);
 });
 
-router.get("/mark/:id", async (req, res) => {
-  const ob = ObjectID.isValid(req.params.id);
-  if (!ob) return res.status(404).send("Page not found");
+// router.get("/mark/:id", async (req, res) => {
+//   const ob = ObjectID.isValid(req.params.id);
+//   if (!ob) return res.status(404).send("Page not found");
 
-  const moduless = await modules.findById(req.params.id);
-  if (!moduless) return res.status(404).send("Module not found");
+//   const moduless = await modules.findById(req.params.id);
+//   if (!moduless) return res.status(404).send("Module not found");
 
-  const result = await Question.find({ modules: moduless });
-  res.send(result).select("answer");
-});
+//   const result = await Question.find({ modules: moduless });
+//   res.send(result).select("answer").select("_id");
+// });
 
 router.post("/", async (req, res) => {
   const { error } = validateTest(req.body);
