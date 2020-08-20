@@ -8,7 +8,7 @@ const _ = require("lodash");
 const router = express.Router();
 
 router.get("/", async (req, res) => {
-  const result = await User.find().select("-password").select("-IDnumber");
+  const result = await User.find().select("-password");
   res.send(result);
 });
 

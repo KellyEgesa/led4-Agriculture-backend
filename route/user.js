@@ -35,20 +35,12 @@ router.post("/add", async (req, res) => {
   const phonenumber = await User.findOne({
     phonenumber: req.body.phonenumber,
   });
-  if (phonenumber) return res.status(400).send("PhoneNumber already exists");
-
-  const idnumber = await User.findOne({
-    IDnumber: req.body.IDnumber,
-  });
-  if (idnumber) return res.status(400).send("I.D number already exists");
 
   user = new User({
     firstname: req.body.firstname,
     lastname: req.body.lastname,
     email: req.body.email,
-    phonenumber: req.body.phonenumber,
     password: req.body.password,
-    IDnumber: req.body.IDnumber,
   });
 
   const salt = await bcrypt.genSalt(10);

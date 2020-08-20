@@ -23,21 +23,11 @@ const userSchema = new mongoose.Schema({
     type: String,
     unique: true,
   },
-  phonenumber: {
-    required: true,
-    type: Number,
-    unique: true,
-  },
   password: {
     required: true,
     type: String,
     minlength: 8,
     maxlength: 1024,
-  },
-  IDnumber: {
-    required: true,
-    type: Number,
-    unique: true,
   },
   isAdmin: { type: Boolean, default: false },
   editor: { type: Boolean, default: false },
@@ -50,12 +40,7 @@ function validateUser(user) {
     firstname: Joi.string().min(2).max(25).required(),
     lastname: Joi.string().min(2).max(25).required(),
     email: Joi.string().min(5).max(60).required().email(),
-    phonenumber: Joi.string()
-      .min(10)
-      .max(10)
-      .regex(/^([0][7])([0-9]{8})$/),
     password: Joi.string().min(5).max(255).required(),
-    IDnumber: Joi.number(),
   });
   return schema.validate(user);
 }
