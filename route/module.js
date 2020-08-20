@@ -43,13 +43,13 @@ router.post("/", async (req, res) => {
   res.send(await moduless.save());
 });
 
-router.delete("/:id", async (req, res) => {
-  const tests = await test.findByIdAndDelete(req.params.id);
-  if (!tests) return res.status(404).send("Page not found");
+// router.delete("/:id", async (req, res) => {
+//   const tests = await test.findByIdAndDelete(req.params.id);
+//   if (!tests) return res.status(404).send("Page not found");
 
-  Question.deleteMany({ test: tests });
-  res.send(tests);
-});
+//   Question.deleteMany({ test: tests });
+//   res.send(tests);
+// });
 
 router.post("/mark/:id", async (req, res) => {
   const ob = ObjectID.isValid(req.params.id);
