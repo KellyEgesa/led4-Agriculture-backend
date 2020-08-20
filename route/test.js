@@ -19,11 +19,11 @@ router.get("/:id", async (req, res) => {
   const ob = ObjectID.isValid(req.params.id);
   if (!ob) return res.status(404).send("Page not found");
 
-  const modules = await modules.findById(req.params.id);
-  if (!modules) return res.status(404).send("Module not found");
+  const moduless = await modules.findById(req.params.id);
+  if (!moduless) return res.status(404).send("Module not found");
 
-  // const result = await Question.find({ modules: modules });
-  res.send(modules).header({ "Access-Control-Allow-Origin": "*" });
+  const result = await Question.find({ modules: modules });
+  res.send(modules);
 });
 
 router.post("/", async (req, res) => {
