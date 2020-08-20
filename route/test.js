@@ -23,7 +23,7 @@ router.get("/:id", async (req, res) => {
   if (!modules) return res.status(404).send("Module not found");
 
   // const result = await Question.find({ modules: modules });
-  res.send(modules);
+  res.send(modules).header({ "Access-Control-Allow-Origin": "*" });
 });
 
 router.post("/", async (req, res) => {
