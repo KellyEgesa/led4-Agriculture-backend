@@ -7,7 +7,7 @@ const question = mongoose.model(
     modules: {
       type: new mongoose.Schema({
         topic: {
-          type: String,
+          type: Object,
           required: true,
           minlength: 2,
           maxlength: 20,
