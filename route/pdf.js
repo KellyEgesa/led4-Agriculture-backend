@@ -63,6 +63,7 @@ router.get("/delete/:filename", (req, res) => {
         message: "No files available",
       });
     }
+
     gfs.delete(new mongoose.Types.ObjectId(files[0]._id), (err, data) => {
       if (err) {
         return res.status(404).json({ err: err });
