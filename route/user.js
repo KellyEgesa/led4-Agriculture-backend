@@ -62,7 +62,7 @@ router.post("/add", async (req, res) => {
     display: flex;
     border: 1px solid black; 
     align-items: center;">
-    <p>Hi xxxxxx !<br>Thanks for joining LED4Agriculture! Before we get started, we need you to verify your email to make sure we got it right.<br><a href="https://www.facebook.com"><button style="background-color: blue; 
+    <p>Hi ${user.firstname} ${user.lastname}!<br>Thanks for joining LED4Agriculture! Before we get started, we need you to verify your email to make sure we got it right.<br><a href="https://www.facebook.com"><button style="background-color: blue; 
     border: none;
     color: white;
     padding: 20px; 
