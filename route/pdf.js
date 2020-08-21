@@ -64,7 +64,7 @@ router.post("/delete/:filename", (req, res) => {
       });
     }
 
-    gfs.delete({ filename: req.params.filename }, (err) => {
+    gfs.delete(new mongoose.Types.ObjectId(files[0]), (err) => {
       if (err) res.status(500).send(err);
       res.send("File Deleted");
     });
