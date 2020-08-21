@@ -13,7 +13,7 @@ function email(emailreceiver, subject, text, html) {
   );
 
   let mailDetails = {
-    from: "ackstpeters.kahawasukari.booking@gmail.com",
+    from: "led4agriculture@gmail.com",
     to: emailreceiver,
     subject: subject,
     text: text,
