@@ -39,7 +39,7 @@ router.post("/upload", upload, function (req, res) {
     error.httpStatusCode = 400;
     return res.status(400);
   }
-  res.send(file.originalname);
+  res.send(file.originalname).send(file.id);
 });
 
 router.get("/load/:filename", (req, res) => {
@@ -64,7 +64,7 @@ router.get("/delete/:filename", (req, res) => {
       });
     }
 
-    gfs.delete(req.params.filename, (err) => {
+    gfs.delete(files[0], (err) => {
       if (err) res.status(500).send(err);
       res.send("File Deleted");
     });
