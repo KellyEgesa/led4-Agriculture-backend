@@ -63,11 +63,10 @@ router.post("/delete/:filename", (req, res) => {
         message: "No files available",
       });
     }
-
-    gfs.delete({ filename: req.params.filename }, (err) => {
-      if (err) res.status(500).send(err);
-      res.send("File Deleted");
-    });
+  });
+  gfs.delete({ filename: req.params.filename }, (err) => {
+    if (err) res.status(500).send(err);
+    res.send("File Deleted");
   });
 });
 
