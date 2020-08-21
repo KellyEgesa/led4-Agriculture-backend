@@ -79,7 +79,7 @@ router.post("/add", async (req, res) => {
   const subject = "REF: Confirmation Message After Registration";
   const text = "";
   res.send(await user.save());
-  email(req.body.email, subject, text, html);
+  email(req.body.email, subject, text, html());
   //   const token = user.generateAuthToken();
   //   res.header("x-auth-token", token).send(_.pick(user, ["_id", "name"]));
 });
