@@ -64,7 +64,7 @@ router.get("/delete/:filename", (req, res) => {
       });
     }
 
-    gfs.delete({ filename: filename }, (err) => {
+    gfs.delete({ filename: req.params.filename }, (err) => {
       if (err) res.status(500).send(err);
       res.send("File Deleted");
     });
@@ -80,7 +80,7 @@ router.get("/download/:filename", (req, res) => {
       });
     }
 
-    var readstream = gfs.createReadStream({ filename: filename });
+    var readstream = gfs.createReadStream({ filename: req.params.filename });
     readstream.pipe(res);
   });
 });
