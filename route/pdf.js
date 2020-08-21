@@ -63,11 +63,11 @@ router.get("/delete/:filename", (req, res) => {
         message: "No files available",
       });
     }
-    res.send("trtial");
-    // gfs.findOneAndDelete({ filename: req.params.filename }, (err) => {
-    //   if (err) res.status(500).send(err);
-    //   res.send("File Deleted");
-    // });
+
+    gfs.delete(req.params.filename, (err) => {
+      if (err) res.status(500).send(err);
+      res.send("File Deleted");
+    });
   });
 });
 
