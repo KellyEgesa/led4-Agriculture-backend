@@ -63,16 +63,15 @@ router.get("/delete/:filename", (req, res) => {
         message: "No files available",
       });
     }
-    return res.status(200).json({
-      success: false,
-      file: files[0],
+    gfs.delete(new mongoose.Types.ObjectId(files[0]._id), (err, data) => {
+      if (err) {
+        return res.status(404).json({ err: err });
+      }
+      res.send("File Deleted");
     });
   });
-  // gfs.delete({ filename: req.params.filename }, (err) => {
-  //   if (err) res.status(500).send(err);
-  //   res.send("File Deleted");
-  // });
 });
+fin;
 
 router.get("/download/:filename", (req, res) => {
   gfs.find({ filename: req.params.filename }).toArray((err, files) => {
