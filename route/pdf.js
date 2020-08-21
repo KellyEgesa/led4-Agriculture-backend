@@ -64,7 +64,7 @@ router.get("/delete/:filename", (req, res) => {
       });
     }
 
-    gfs.remove({ filename: req.params.filename }, (err) => {
+    gfs.deleteOne({ filename: req.params.filename }, (err) => {
       if (err) res.status(500).send(err);
       res.send("File Deleted");
     });
