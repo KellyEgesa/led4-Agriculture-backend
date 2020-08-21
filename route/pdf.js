@@ -72,7 +72,6 @@ router.get("/delete/:filename", (req, res) => {
     });
   });
 });
-fin;
 
 router.get("/download/:filename", (req, res) => {
   gfs.find({ filename: req.params.filename }).toArray((err, files) => {
