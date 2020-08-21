@@ -3,6 +3,7 @@ const bcrypt = require("bcrypt");
 const { User, validate, validateUser1 } = require("../models/user");
 const express = require("express");
 const _ = require("lodash");
+const { email } = require("../email/email");
 const router = express.Router();
 
 router.post("/", async (req, res) => {
@@ -25,6 +26,16 @@ router.post("/", async (req, res) => {
   // token);
 });
 
+router.put("/confimed/:id", async (req, res) => {
+  await User.Update(
+    { _id: req.params.id },
+    {
+      confirmed: true,
+    }
+  );
+  res.send("yaye");
+});
+
 router.post("/add", async (req, res) => {
   const { error } = validate(req.body);
   if (error) return res.status(400).send(error.details[0].message);
@@ -33,10 +44,6 @@ router.post("/add", async (req, res) => {
     email: req.body.email,
   });
   if (checkemail) return res.status(400).send("Email already exists");
-
-  const phonenumber = await User.findOne({
-    phonenumber: req.body.phonenumber,
-  });
 
   user = new User({
     firstname: req.body.firstname,
@@ -48,7 +55,31 @@ router.post("/add", async (req, res) => {
   const salt = await bcrypt.genSalt(10);
   user.password = await bcrypt.hash(user.password, salt);
 
+  const html = () => {
+    return `<body style="padding: 2%;""><div style="width: 50%;
+    height: 50%;
+    padding: 5%;
+    display: flex;
+    border: 1px solid black; 
+    align-items: center;">
+    <p>Hi xxxxxx !<br>Thanks for joining LED4Agriculture! Before we get started, we need you to verify your email to make sure we got it right.<br><a href="https://www.facebook.com"><button style="background-color: blue; 
+    border: none;
+    color: white;
+    padding: 20px; 
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 10%;
+    cursor: pointer;
+    border-radius: 15px;">CONFIRM MY EMAIL </button></a>
+  </p>
+  </div></body>`;
+  };
+  const subject = "REF: Confirmation Message After Registration";
+  const text = "";
   res.send(await user.save());
+  email(req.body.email, subject, text, html);
   //   const token = user.generateAuthToken();
   //   res.header("x-auth-token", token).send(_.pick(user, ["_id", "name"]));
 });

@@ -29,6 +29,7 @@ const userSchema = new mongoose.Schema({
     minlength: 8,
     maxlength: 1024,
   },
+  confirmed: { type: Boolean, default: false },
   isAdmin: { type: Boolean, default: false },
   editor: { type: Boolean, default: false },
 });
