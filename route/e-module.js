@@ -28,8 +28,6 @@ router.post("/", async (req, res) => {
   const { error } = validateModules(req.body);
   if (error) return res.status(400).send(error.details[0].message);
 
-  const topics = await topic.findById(req.body.topic);
-
   emoduless = new emodules({
     etopic: req.body.topic,
     heading: req.body.heading,
