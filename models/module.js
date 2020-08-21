@@ -36,6 +36,10 @@ const modules = mongoose.model(
       type: String,
       required: true,
     },
+    fileid: {
+      type: String,
+      required: true,
+    },
   })
 );
 
@@ -47,6 +51,7 @@ function validateModules(Modules) {
     url: Joi.string(),
     added: Joi.boolean(),
     filename: Joi.string().required(),
+    fileid: Joi.string().required(),
   });
   return schema.validate(Modules);
 }

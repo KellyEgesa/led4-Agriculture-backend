@@ -39,7 +39,7 @@ router.post("/upload", upload, function (req, res) {
     error.httpStatusCode = 400;
     return res.status(400);
   }
-  res.send(file.originalname).send(file.id);
+  res.send(file.originalname).send(file);
 });
 
 router.get("/load/:filename", (req, res) => {
@@ -64,7 +64,7 @@ router.post("/delete/:filename", (req, res) => {
       });
     }
 
-    gfs.delete(new mongoose.Types.ObjectId(files[0]), (err) => {
+    gfs.delete({ filename: filename }, (err) => {
       if (err) res.status(500).send(err);
       res.send("File Deleted");
     });
