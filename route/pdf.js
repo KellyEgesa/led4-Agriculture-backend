@@ -55,7 +55,7 @@ router.get("/load/:filename", (req, res) => {
   });
 });
 
-router.get("/delete/:filename", (req, res) => {
+router.post("/delete/:filename", (req, res) => {
   gfs.find({ filename: req.params.filename }).toArray((err, files) => {
     if (!files[0] || files.length === 0) {
       return res.status(200).json({
