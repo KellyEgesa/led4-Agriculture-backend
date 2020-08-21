@@ -64,7 +64,7 @@ router.post("/delete/:filename", (req, res) => {
       });
     }
 
-    gfs.delete(files[0], (err) => {
+    gfs.delete({ filename: req.params.filename }, (err) => {
       if (err) res.status(500).send(err);
       res.send("File Deleted");
     });
