@@ -65,7 +65,7 @@ router.get("/delete/:filename", (req, res) => {
     }
     return res.status(200).json({
       success: false,
-      file: file[0],
+      file: files[0],
     });
   });
   // gfs.delete({ filename: req.params.filename }, (err) => {
