@@ -4,6 +4,7 @@ var cors = require("cors");
 
 const Admin = require("../route/admin");
 const Module = require("../route/module");
+const Emodule = require("../route/e-module");
 const Questions = require("../route/questions");
 const Test = require("../route/test");
 const Topic = require("../route/topic");
@@ -18,6 +19,7 @@ module.exports = function (app) {
   app.use(express.json());
   app.use("/api/test", Test);
   app.use("/api/admin", Admin);
+  app.use("/api/emodule", Emodule);
   app.use("/api/module", Module);
   app.use("/api/questions", Questions);
   app.use("/api/topic", Topic);

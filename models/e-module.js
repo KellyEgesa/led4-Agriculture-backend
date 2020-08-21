@@ -1,18 +1,14 @@
 const mongoose = require("mongoose");
 const Joi = require("joi");
 
-const modules = mongoose.model(
-  "modules",
+const emodules = mongoose.model(
+  "emodules",
   new mongoose.Schema({
-    topic: {
-      type: new mongoose.Schema({
-        topic: {
-          type: String,
-          required: true,
-          minlength: 2,
-          maxlength: 20,
-        },
-      }),
+    etopic: {
+      type: String,
+      required: true,
+      minlength: 2,
+      maxlength: 20,
     },
     heading: {
       type: String,
@@ -28,27 +24,27 @@ const modules = mongoose.model(
       type: String,
       required: true,
     },
-    added: {
+    filename: {
       type: String,
       required: true,
     },
-    filename: {
+    added: {
       type: String,
       required: true,
     },
   })
 );
 
-function validateModules(Modules) {
+function validateeModules(eModules) {
   const schema = Joi.object({
     heading: Joi.string().min(2).max(20).required(),
     description: Joi.string().min(3).max(255).required(),
-    topic: Joi.string(),
-    url: Joi.string(),
-    added: Joi.boolean(),
+    etopic: Joi.string(),
+    url: Joi.string().required(),
     filename: Joi.string().required(),
+    added: Joi.boolean(),
   });
-  return schema.validate(Modules);
+  return schema.validate(eModules);
 }
-module.exports.modules = modules;
-module.exports.validateModules = validateModules;
+module.exports.emodules = emodules;
+module.exports.validateeModules = validateeModules;

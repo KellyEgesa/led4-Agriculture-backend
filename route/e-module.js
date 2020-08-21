@@ -1,29 +1,27 @@
 //load npm
 // const auth = require("../middleware/auth");
 // const admin = require("../middleware/admin");
-const { test, validateTest } = require("../models/test");
 const { Question } = require("../models/questions");
 var ObjectID = require("mongodb").ObjectID;
-const { modules, validateModules } = require("../models/module");
-const { topic } = require("../models/topic");
+const { emodules, validateeModules } = require("../models/e-module");
 const express = require("express");
 const router = express.Router();
 
 //mongoose model
 
 router.get("/", async (req, res) => {
-  const moduless = await modules.find().sort();
-  res.send(moduless);
+  const emoduless = await emodules.find().sort();
+  res.send(emoduless);
 });
 
 router.get("/:id", async (req, res) => {
   const ob = ObjectID.isValid(req.params.id);
   if (!ob) return res.status(404).send("Page not found");
 
-  const moduless = await modules.findById(req.params.id);
-  if (!moduless) return res.status(404).send("Module not found");
+  const emoduless = await emodules.findById(req.params.id);
+  if (!emoduless) return res.status(404).send("Module not found");
 
-  res.send(moduless);
+  res.send(emoduless);
 });
 
 router.post("/", async (req, res) => {
@@ -32,8 +30,8 @@ router.post("/", async (req, res) => {
 
   const topics = await topic.findById(req.body.topic);
 
-  moduless = new modules({
-    topic: topics,
+  emoduless = new emodules({
+    etopic: req.body.topic,
     heading: req.body.heading,
     description: req.body.description,
     url: req.body.url,
@@ -41,19 +39,14 @@ router.post("/", async (req, res) => {
     added: req.body.added,
   });
 
-  res.send(await moduless.save());
+  res.send(await emoduless.save());
 });
 
 router.delete("/:id", async (req, res) => {
-  const moduless = await modules.findByIdAndDelete(req.params.id);
-  if (!moduless) return res.status(404).send("Page not found");
+  const tests = await emodules.findByIdAndDelete(req.params.id);
+  if (!tests) return res.status(404).send("Page not found");
 
-  try {
-    Question.deleteMany({ modules: moduless });
-    res.send(moduless);
-  } catch (error) {
-    res.send("error");
-  }
+  res.send(tests);
 });
 
 module.exports = router;

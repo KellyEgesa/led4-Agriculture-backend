@@ -55,4 +55,33 @@ router.get("/load/:filename", (req, res) => {
   });
 });
 
+router.get("/delete/:filename", (req, res) => {
+  gfs.find({ filename: req.params.filename }).toArray((err, files) => {
+    if (!files[0] || files.length === 0) {
+      return res.status(200).json({
+        success: false,
+        message: "No files available",
+      });
+    }
+
+    gfs.remove({ filename: req.params.filename }, (err) => {
+      if (err) res.status(500).send(err);
+      res.send("File Deleted");
+    });
+  });
+});
+
+router.get("/download/:filename", (req, res) => {
+  gfs.find({ filename: req.params.filename }).toArray((err, files) => {
+    if (!files[0] || files.length === 0) {
+      return res.status(200).json({
+        success: false,
+        message: "No files available",
+      });
+    }
+
+    var readstream = gfs.createReadStream({ filename: filename });
+    readstream.pipe(res);
+  });
+});
 module.exports = router;
