@@ -1,9 +1,12 @@
 const bcrypt = require("bcrypt");
+const crypto = require("crypto");
+const cconfig = require("config");
 // const auth = require("../middleware/auth");
 const { User, validate, validateUser1 } = require("../models/user");
 const express = require("express");
 const _ = require("lodash");
 const { email } = require("../email/email");
+const { send } = require("process");
 const router = express.Router();
 
 router.post("/", async (req, res) => {
@@ -27,13 +30,17 @@ router.post("/", async (req, res) => {
 });
 
 router.put("/confimed/:id", async (req, res) => {
-  await User.Update(
-    { _id: req.params.id },
-    {
-      confirmed: true,
-    }
-  );
-  res.send("yaye");
+  try {
+    await User.Update(
+      { _id: req.params.id },
+      {
+        confirmed: true,
+      }
+    );
+    res.send("confirmed");
+  } catch (ex) {
+    res.send("User not found");
+  }
 });
 
 router.post("/add", async (req, res) => {
@@ -56,8 +63,8 @@ router.post("/add", async (req, res) => {
   user.password = await bcrypt.hash(user.password, salt);
 
   const html = () => {
-    return `<body style="padding: 2%;""><div style="width: 50%;
-    height: 50%;
+    return `<body style="padding: 2%;""><div style="width: 100%;
+    height: 100%;
     padding: 5%;
     display: flex;
     border: 1px solid black; 
@@ -84,4 +91,74 @@ router.post("/add", async (req, res) => {
   //   res.header("x-auth-token", token).send(_.pick(user, ["_id", "name"]));
 });
 
+router.post("/forgotPassword", async (req, res) => {
+  let user = await User.findOne({ email: req.body.email });
+  if (!user) return res.status(400).send("Email doesnt exists");
+
+  const token = crpto.randomBytes(20).toString("hex");
+  user.update({
+    resetPasswordToken: token,
+    resetPasswordExpires: Date.now() + 3600000,
+  });
+
+  const reseturl = config.get("frontend") + "/reset/" + token;
+
+  const html = () => {
+    return `<body style="padding: 2%;""><div style="width: 100%;
+    height: 100%;
+    padding: 5%;
+    display: flex;
+    border: 1px solid black; 
+    align-items: center;">
+    <p>Hi ${user.firstname} ${user.lastname}!<br>You are receiving this email because you have requested to reset your password for your LED4Agriculture account<br>Please click on the following link within an hour to reset your password<br>If you did not request the password change kindly ignore the link. Your password will remain unchanged.<br> <a href=${reseturl}><button style="background-color: blue; 
+    border: none;
+    color: white;
+    padding: 20px; 
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 10%;
+    cursor: pointer;
+    border-radius: 15px;">CONFIRM MY EMAIL </button></a>
+  </p>
+  </div></body>`;
+  };
+  const subject = "REF: LINK TO RESET PASSWORD";
+  const text = "";
+  email(req.body.email, subject, text, html());
+});
+
+router.get("/reset", async (req, res) => {
+  let user = await User.find({
+    resetPasswordToken: req.query.resetPasswordToken,
+    resetPasswordExpires: { $gt: Date.now() },
+  });
+  if (!user)
+    return res.status(400).send("Password link is invalid or has expired");
+
+  res.status(200).send("Valid password link");
+});
+
+router.put("/updatePasswordViaEmail", async (req, res) => {
+  let user = await User.findOne({ email: req.body.email });
+  if (!user) return res.status(400).send("Email doesnt exists");
+
+  const salt = await bcrypt.genSalt(10);
+  newPassword = await bcrypt.hash(req.body.password, salt);
+
+  try {
+    await User.Update(
+      { email: req.body.email },
+      {
+        password: newPassword,
+        resetPasswordToken: null,
+        resetPasswordExpires: null,
+      }
+    );
+    res.send("Password Updated");
+  } catch (ex) {
+    res.send("something went wrong");
+  }
+});
 module.exports = router;

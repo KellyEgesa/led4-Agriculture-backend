@@ -1,3 +1,3 @@
 {
-  "db": "mongodb://localhost:27017/led4agriculture"
+  "front-end": "https://happy-davinci-7bbe79.netlify.app/"
 }

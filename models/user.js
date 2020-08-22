@@ -32,6 +32,7 @@ const userSchema = new mongoose.Schema({
   confirmed: { type: Boolean, default: false },
   isAdmin: { type: Boolean, default: false },
   editor: { type: Boolean, default: false },
+  delTime: { type: Date },
 });
 
 const User = mongoose.model("User", userSchema);
