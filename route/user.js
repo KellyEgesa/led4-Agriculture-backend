@@ -63,8 +63,8 @@ router.post("/add", async (req, res) => {
   user.password = await bcrypt.hash(user.password, salt);
 
   const html = () => {
-    return `<body style="padding: 2%;""><div style="width: 60%;
-    height: 60%;
+    return `<body style="padding: 2%;""><div style="width: 85%;
+    height: 85%;
     padding: 5%;
     display: flex;
     border: 1px solid black; 
@@ -104,8 +104,8 @@ router.post("/forgotPassword", async (req, res) => {
   const reseturl = config.get("front-end") + "/reset/" + token;
 
   const html = () => {
-    return `<body style="padding: 2%;""><div style="width: 60%;
-    height: 60%;
+    return `<body style="padding: 2%;""><div style="width: 85%;
+    height: 85%;
     padding: 5%;
     display: flex;
     border: 1px solid black; 
