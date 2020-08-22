@@ -1,6 +1,6 @@
 const bcrypt = require("bcrypt");
 const crypto = require("crypto");
-const cconfig = require("config");
+const config = require("config");
 // const auth = require("../middleware/auth");
 const { User, validate, validateUser1 } = require("../models/user");
 const express = require("express");
@@ -95,7 +95,7 @@ router.post("/forgotPassword", async (req, res) => {
   let user = await User.findOne({ email: req.body.email });
   if (!user) return res.status(400).send("Email doesnt exists");
 
-  const token = crpto.randomBytes(20).toString("hex");
+  const token = crypto.randomBytes(20).toString("hex");
   user.update({
     resetPasswordToken: token,
     resetPasswordExpires: Date.now() + 3600000,
@@ -127,6 +127,7 @@ router.post("/forgotPassword", async (req, res) => {
   const subject = "REF: LINK TO RESET PASSWORD";
   const text = "";
   email(req.body.email, subject, text, html());
+  res.send("An link has been sent to your Email address");
 });
 
 router.get("/reset", async (req, res) => {
