@@ -101,7 +101,7 @@ router.post("/forgotPassword", async (req, res) => {
     resetPasswordExpires: Date.now() + 3600000,
   });
 
-  const reseturl = config.get("frontend") + "/reset/" + token;
+  const reseturl = config.get("front-end") + "/reset/" + token;
 
   const html = () => {
     return `<body style="padding: 2%;""><div style="width: 100%;
