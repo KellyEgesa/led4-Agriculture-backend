@@ -48,7 +48,7 @@ router.post("/upload", upload, function (req, res) {
 });
 
 router.get("/load/:filename", (req, res) => {
-  gfs.find({ filename: req.params.filename }).toArray((err, files) => {
+  gfs.find.files({ filename: req.params.filename }).toArray((err, files) => {
     if (!files[0] || files.length === 0) {
       return res.status(200).json({
         success: false,
@@ -61,7 +61,7 @@ router.get("/load/:filename", (req, res) => {
 });
 
 router.get("/delete/:filename", (req, res) => {
-  gfs.find({ filename: req.params.filename }).toArray((err, files) => {
+  gfs.find.files({ filename: req.params.filename }).toArray((err, files) => {
     if (!files[0] || files.length === 0) {
       return res.status(200).json({
         success: false,
@@ -79,7 +79,7 @@ router.get("/delete/:filename", (req, res) => {
 });
 
 router.get("/download/:filename", (req, res) => {
-  gfs.find({ filename: req.params.filename }).toArray((err, files) => {
+  gfs.find.files({ filename: req.params.filename }).toArray((err, files) => {
     if (!files[0] || files.length === 0) {
       return res.status(200).json({
         success: false,
