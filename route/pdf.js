@@ -7,6 +7,12 @@ const gridStream = require("gridfs-stream");
 
 const url = `mongodb+srv://KellyEgesa:led4Agriculture1007@cluster0.g8jcv.mongodb.net/<dbname>?retryWrites=true&w=majority`;
 
+eval(
+  `gridStream.prototype.findOne = ${gridStream.prototype.findOne
+    .toString()
+    .replace("nextObject", "next")}`
+);
+
 const connect = mongoose.createConnection(url, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
@@ -15,9 +21,8 @@ const connect = mongoose.createConnection(url, {
 let gfs;
 
 connect.once("open", () => {
-  gfs = new mongoose.mongo.GridFSBucket(connect.db, {
-    bucketName: "uploads",
-  });
+  gfs = gridStream(connect.db, mongoose.mongo);
+  gfs.collection("uploads");
 });
 
 const storage = new GridFsStorage({
@@ -82,8 +87,22 @@ router.get("/download/:filename", (req, res) => {
       });
     }
 
-    // res.status(200).json({ sucess: true, file: files[0] });
-    res.render(files[[0]]);
+    var read_stream = gfs.createReadStream(files[0]._id);
+    let file = [];
+    read_stream.on("data", function (chunk) {
+      file.push(chunk);
+    });
+    read_stream.on("error", (e) => {
+      console.log(e);
+      reject(e);
+    });
+    return read_stream.on("end", function () {
+      file = Buffer.concat(file);
+      const pdf = `data:application/pdf;base64,${Buffer(file).toString(
+        "base64"
+      )}`;
+      res.send(pdf);
+    });
   });
 });
 module.exports = router;
