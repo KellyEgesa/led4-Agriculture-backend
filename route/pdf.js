@@ -7,12 +7,6 @@ const gridStream = require("gridfs-stream");
 
 const url = `mongodb+srv://KellyEgesa:led4Agriculture1007@cluster0.g8jcv.mongodb.net/<dbname>?retryWrites=true&w=majority`;
 
-eval(
-  `gridStream.prototype.findOne = ${gridStream.prototype.findOne
-    .toString()
-    .replace("nextObject", "next")}`
-);
-
 const connect = mongoose.createConnection(url, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
@@ -21,7 +15,7 @@ const connect = mongoose.createConnection(url, {
 let gfs;
 
 connect.once("open", () => {
-  gfs = gridStream(connect.db, mongoose.mongo);
+  gfs = Grid(connect.db, mongoose.mongo);
   gfs.collection("uploads");
 });
 
@@ -48,7 +42,7 @@ router.post("/upload", upload, function (req, res) {
 });
 
 router.get("/load/:filename", (req, res) => {
-  gfs.find.files({ filename: req.params.filename }).toArray((err, files) => {
+  gfs.files.find({ filename: req.params.filename }).toArray((err, files) => {
     if (!files[0] || files.length === 0) {
       return res.status(200).json({
         success: false,
@@ -61,7 +55,7 @@ router.get("/load/:filename", (req, res) => {
 });
 
 router.get("/delete/:filename", (req, res) => {
-  gfs.find.files({ filename: req.params.filename }).toArray((err, files) => {
+  gfs.files.find({ filename: req.params.filename }).toArray((err, files) => {
     if (!files[0] || files.length === 0) {
       return res.status(200).json({
         success: false,
@@ -79,7 +73,7 @@ router.get("/delete/:filename", (req, res) => {
 });
 
 router.get("/download/:filename", (req, res) => {
-  gfs.find.files({ filename: req.params.filename }).toArray((err, files) => {
+  gfs.files.find({ filename: req.params.filename }).toArray((err, files) => {
     if (!files[0] || files.length === 0) {
       return res.status(200).json({
         success: false,
