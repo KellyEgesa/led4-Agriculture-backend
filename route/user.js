@@ -36,10 +36,7 @@ router.put("/confirmed/:id", async (req, res) => {
         confirmed: true,
       }
     );
-
-    const token = user.generateAuthToken();
-    console.log(token);
-    // res
+    res.send("success");
     //   .header("x-auth-token", token)
     //   .header("access-control-expose-headers", "x-auth-token")
     //   .send(token);
