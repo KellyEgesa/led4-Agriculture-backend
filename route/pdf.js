@@ -82,7 +82,7 @@ router.get("/download/:filename", (req, res) => {
       });
     }
 
-    var read_stream = gfs.createReadStream({ _id: files[0]._id });
+    var read_stream = gfs.createReadStream(files[0]._id);
     let file = [];
     read_stream.on("data", function (chunk) {
       file.push(chunk);
