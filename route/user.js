@@ -42,7 +42,7 @@ router.put("/confirmed/:id", async (req, res) => {
       .header("access-control-expose-headers", "x-auth-token")
       .send(token);
   } catch (ex) {
-    res.send("User not found");
+    res.status(400).send(ex);
   }
 });
 
