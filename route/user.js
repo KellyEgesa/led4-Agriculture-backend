@@ -67,7 +67,7 @@ router.post("/add", async (req, res) => {
   user.password = await bcrypt.hash(user.password, salt);
 
   const saved = await user.save();
-  const confirmurl = config.get("front-end") + "confirm/" + saved;
+  const confirmurl = config.get("front-end") + "confirm/" + saved._id;
 
   const html = () => {
     return `<body style="padding: 2%;""><div style="width: 85%;
