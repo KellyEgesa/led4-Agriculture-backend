@@ -1,7 +1,6 @@
 const bcrypt = require("bcrypt");
 const crypto = require("crypto");
 const config = require("config");
-// const auth = require("../middleware/auth");
 const { User, validate, validateUser1 } = require("../models/user");
 const express = require("express");
 const _ = require("lodash");
@@ -16,28 +15,32 @@ router.post("/", async (req, res) => {
   let user = await User.findOne({ email: req.body.email });
   if (!user) return res.status(400).send("Email doesnt exists");
 
+  if (!user.confirmed)
+    return res.status(400).send("Kindly confirm your email first");
+
   const validPassword = await bcrypt.compare(req.body.password, user.password);
   if (!validPassword) return res.status(400).send("Invalid password");
 
-  // const token = user.generateAuthToken();
+  const token = user.generateAuthToken();
   res
-    // .header("x-auth-token", token)
-    // .header("access-control-expose-headers", "x-auth-token")
-    .send(user)
-    .select("-password")
-    .send("-email");
-  // token);
+    .header("x-auth-token", token)
+    .header("access-control-expose-headers", "x-auth-token")
+    .send(token);
 });
 
 router.put("/confimed/:id", async (req, res) => {
   try {
-    await User.Update(
+    let user = await User.Update(
       { _id: req.params.id },
       {
         confirmed: true,
       }
     );
-    res.send("confirmed");
+    const token = user.generateAuthToken();
+    res
+      .header("x-auth-token", token)
+      .header("access-control-expose-headers", "x-auth-token")
+      .send(token);
   } catch (ex) {
     res.send("User not found");
   }
@@ -138,7 +141,7 @@ router.get("/reset", async (req, res) => {
   if (!user)
     return res.status(400).send("Password link is invalid or has expired");
 
-  res.status(200).send({email: user.email, message:"Valid password link"});
+  res.status(200).send({ email: user.email, message: "Valid password link" });
 });
 
 router.put("/updatePasswordViaEmail", async (req, res) => {

@@ -1,6 +1,7 @@
 //load npm
-// const auth = require("../middleware/auth");
-// const admin = require("../middleware/admin");
+const editor = require("../middleware/editor");
+const auth = require("../middleware/auth");
+const admin = require("../middleware/admin");
 const { test, validateTest } = require("../models/test");
 const { Question } = require("../models/questions");
 var ObjectID = require("mongodb").ObjectID;
@@ -11,12 +12,12 @@ const router = express.Router();
 
 //mongoose model
 
-router.get("/", async (req, res) => {
+router.get("/", auth, async (req, res) => {
   const moduless = await modules.find().sort();
   res.send(moduless);
 });
 
-router.get("/:id", async (req, res) => {
+router.get("/:id", auth, async (req, res) => {
   const ob = ObjectID.isValid(req.params.id);
   if (!ob) return res.status(404).send("Page not found");
 
@@ -26,7 +27,7 @@ router.get("/:id", async (req, res) => {
   res.send(moduless);
 });
 
-router.post("/", async (req, res) => {
+router.post("/", [auth, editor], async (req, res) => {
   const { error } = validateModules(req.body);
   if (error) return res.status(400).send(error.details[0].message);
 
@@ -44,7 +45,7 @@ router.post("/", async (req, res) => {
   res.send(await moduless.save());
 });
 
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", [auth, editor], async (req, res) => {
   const moduless = await modules.findByIdAndDelete(req.params.id);
   if (!moduless) return res.status(404).send("Page not found");
 

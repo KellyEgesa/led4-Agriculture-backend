@@ -1,3 +1,4 @@
 {
-  "front-end": "https://happy-davinci-7bbe79.netlify.app/"
+  "front-end": "https://happy-davinci-7bbe79.netlify.app/",
+  "jwtPrivateKey": ""
 }

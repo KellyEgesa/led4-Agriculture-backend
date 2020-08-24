@@ -1,6 +1,7 @@
 //load npm
-// const auth = require("../middleware/auth");
-// const admin = require("../middleware/admin");
+const editor = require("../middleware/editor");
+const auth = require("../middleware/auth");
+const admin = require("../middleware/admin");
 const { Question } = require("../models/questions");
 var ObjectID = require("mongodb").ObjectID;
 const { emodules, validateeModules } = require("../models/e-module");
@@ -24,7 +25,7 @@ router.get("/:id", async (req, res) => {
   res.send(emoduless);
 });
 
-router.post("/", async (req, res) => {
+router.post("/", [auth, editor], async (req, res) => {
   const { error } = validateModules(req.body);
   if (error) return res.status(400).send(error.details[0].message);
 
@@ -40,7 +41,7 @@ router.post("/", async (req, res) => {
   res.send(await emoduless.save());
 });
 
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", [auth, editor], async (req, res) => {
   const tests = await emodules.findByIdAndDelete(req.params.id);
   if (!tests) return res.status(404).send("Page not found");
 

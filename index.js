@@ -3,7 +3,8 @@ const app = express();
 
 require("./startup/db")();
 require("./startup/routes")(app);
-// require("./startup/config")();
+require("./startup/config")();
+require("./startup/prod")(app);
 
 //port
 const port = process.env.PORT || 8080;

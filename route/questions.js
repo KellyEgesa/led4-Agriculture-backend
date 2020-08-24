@@ -1,6 +1,7 @@
 //load npm
-// const auth = require("../middleware/auth");
-// const admin = require("../middleware/admin");
+const editor = require("../middleware/editor");
+const auth = require("../middleware/auth");
+const admin = require("../middleware/admin");
 const { test } = require("../models/test");
 const { Question, validateQuestion } = require("../models/questions");
 const { modules } = require("../models/module");
@@ -14,7 +15,7 @@ router.get("/", async (req, res) => {
   res.send(question);
 });
 
-router.post("/", async (req, res) => {
+router.post("/", [auth, editor], async (req, res) => {
   const { error } = validateQuestion(req.body);
   if (error) return res.status(400).send(error.details[0].message);
 
@@ -35,7 +36,7 @@ router.post("/", async (req, res) => {
   res.send(await question.save());
 });
 
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", [auth, editor], async (req, res) => {
   const question = await Question.findByIdAndDelete(req.params.id);
   if (!question) return res.status(404).send("Page not found");
 

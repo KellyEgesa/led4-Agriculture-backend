@@ -25,4 +25,5 @@ module.exports = function (app) {
   app.use("/api/topic", Topic);
   app.use("/api/user", User);
   app.use("/api/trial", Trial);
+  app.use(morgan("tiny"));
 };

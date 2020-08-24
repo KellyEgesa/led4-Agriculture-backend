@@ -1,6 +1,7 @@
 //load npm
-// const auth = require("../middleware/auth");
-// const admin = require("../middleware/admin");
+const editor = require("../middleware/editor");
+const auth = require("../middleware/auth");
+const admin = require("../middleware/admin");
 const { topic, validateTopic } = require("../models/topic");
 var ObjectID = require("mongodb").ObjectID;
 const { modules, validateModules } = require("../models/module");
@@ -9,12 +10,12 @@ const router = express.Router();
 
 //mongoose model
 
-router.get("/", async (req, res) => {
+router.get("/", auth, async (req, res) => {
   const topics = await topic.find().sort();
   res.send(topics);
 });
 
-router.get("/:id", async (req, res) => {
+router.get("/:id", auth, async (req, res) => {
   const ob = ObjectID.isValid(req.params.id);
   if (!ob) return res.status(404).send("Page not found");
 
@@ -29,7 +30,7 @@ router.get("/:id", async (req, res) => {
   res.send(result);
 });
 
-router.post("/", async (req, res) => {
+router.post("/", [auth, editor], async (req, res) => {
   const { error } = validateTopic(req.body);
   if (error) return res.status(400).send(error.details[0].message);
 
@@ -38,7 +39,7 @@ router.post("/", async (req, res) => {
   res.send(await topics.save());
 });
 
-router.put("/:id", async (req, res) => {
+router.put("/:id", [auth, editor], async (req, res) => {
   const { error } = validateTopic(req.body);
   if (error) return res.status(400).send("BAD REQUEST");
 
@@ -56,7 +57,7 @@ router.put("/:id", async (req, res) => {
   res.send(topic);
 });
 
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", [auth, editor], async (req, res) => {
   const topics = await topic.findByIdAndDelete(req.params.id);
   if (!topics) return res.status(404).send("Page not found");
 

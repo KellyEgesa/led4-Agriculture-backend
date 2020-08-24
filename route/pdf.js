@@ -1,3 +1,6 @@
+const editor = require("../middleware/editor");
+const auth = require("../middleware/auth");
+const admin = require("../middleware/admin");
 var express = require("express");
 var multer = require("multer");
 const router = express.Router();
@@ -31,7 +34,7 @@ const storage = new GridFsStorage({
 
 const upload = multer({ storage: storage }).single("file");
 
-router.post("/upload", upload, function (req, res) {
+router.post("/upload", [auth, editor, upload], function (req, res) {
   const file = req.file;
   if (!file) {
     const error = new Error("Please upload a file");
@@ -54,7 +57,7 @@ router.get("/load/:filename", (req, res) => {
   });
 });
 
-router.get("/delete/:filename", (req, res) => {
+router.get("/delete/:filename", [auth, editor], (req, res) => {
   gfs.files.find({ filename: req.params.filename }).toArray((err, files) => {
     if (!files[0] || files.length === 0) {
       return res.status(200).json({

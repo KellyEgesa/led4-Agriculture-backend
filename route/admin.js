@@ -1,5 +1,7 @@
 const bcrypt = require("bcrypt");
-// const auth = require("../middleware/auth");
+const editor = require("../middleware/editor");
+const auth = require("../middleware/auth");
+const admin = require("../middleware/admin");
 const { User, validate } = require("../models/user");
 var ObjectID = require("mongodb").ObjectID;
 const express = require("express");
@@ -7,12 +9,12 @@ const _ = require("lodash");
 
 const router = express.Router();
 
-router.get("/", async (req, res) => {
-  const result = await User.find().select("-password");
+router.get("/", [auth, admin], async (req, res) => {
+  const result = await User.find({ confirmed: true }).select("-password");
   res.send(result);
 });
 
-router.put("/editor/:id", async (req, res) => {
+router.put("/editor/:id", [auth, admin], async (req, res) => {
   const ob = ObjectID.isValid(req.params.id);
   if (!ob) return res.status(404).send("Page not found");
 
@@ -28,7 +30,7 @@ router.put("/editor/:id", async (req, res) => {
   res.send(result);
 });
 
-router.put("/admin/:id", async (req, res) => {
+router.put("/admin/:id", [auth, admin], async (req, res) => {
   const result = await User.findByIdAndUpdate(
     req.params.id,
     {
@@ -40,7 +42,7 @@ router.put("/admin/:id", async (req, res) => {
   res.send(result);
 });
 
-router.put("/editorremove/:id", async (req, res) => {
+router.put("/editorremove/:id", [auth, admin], async (req, res) => {
   const ob = ObjectID.isValid(req.params.id);
   if (!ob) return res.status(404).send("Page not found");
 
@@ -70,7 +72,7 @@ router.put("/adminremove/:id", async (req, res) => {
   res.send(result);
 });
 
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", [auth, admin], async (req, res) => {
   const ob = ObjectID.isValid(req.params.id);
   if (!ob) return res.status(404).send("Page not found");
 
