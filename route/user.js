@@ -101,7 +101,7 @@ router.post("/forgotPassword", async (req, res) => {
     resetPasswordExpires: Date.now() + 3600000,
   });
 
-  const reseturl = config.get("front-end") + "/reset/" + token;
+  const reseturl = config.get("front-end") + "reset/" + token;
 
   const html = () => {
     return `<body style="padding: 2%;""><div style="width: 85%;
@@ -138,7 +138,7 @@ router.get("/reset", async (req, res) => {
   if (!user)
     return res.status(400).send("Password link is invalid or has expired");
 
-  res.status(200).send("Valid password link");
+  res.status(200).send({email: user.email, message:"Valid password link"});
 });
 
 router.put("/updatePasswordViaEmail", async (req, res) => {

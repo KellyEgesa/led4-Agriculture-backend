@@ -82,8 +82,22 @@ router.get("/download/:filename", (req, res) => {
       });
     }
 
-    var readstream = gfs.createReadStream({ filename: req.params.filename });
-    readstream.pipe(res);
+    var read_stream = gfs.createReadStream({ _id: files[0]._id });
+    let file = [];
+    read_stream.on("data", function (chunk) {
+      file.push(chunk);
+    });
+    read_stream.on("error", (e) => {
+      console.log(e);
+      reject(e);
+    });
+    return read_stream.on("end", function () {
+      file = Buffer.concat(file);
+      const pdf = `data:application/pdf;base64,${Buffer(file).toString(
+        "base64"
+      )}`;
+      res.send(pdf);
+    });
   });
 });
 module.exports = router;
