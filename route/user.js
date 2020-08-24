@@ -30,16 +30,19 @@ router.post("/", async (req, res) => {
 
 router.put("/confirmed/:id", async (req, res) => {
   try {
-    let user = await User.findByIdAndUpdate(
+    await User.findByIdAndUpdate(
       { _id: req.params.id },
       {
         confirmed: true,
       }
     );
-    res.send("success");
-    //   .header("x-auth-token", token)
-    //   .header("access-control-expose-headers", "x-auth-token")
-    //   .send(token);
+    let user = await User.findById(req.params.id);
+    const token = user.generateAuthToken();
+    res
+      .send("success")
+      .header("x-auth-token", token)
+      .header("access-control-expose-headers", "x-auth-token")
+      .send(token);
   } catch (ex) {
     res.status(400).send(ex);
   }
