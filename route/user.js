@@ -30,7 +30,7 @@ router.post("/", async (req, res) => {
 
 router.put("/confirmed/:id", async (req, res) => {
   try {
-    let user = await User.Update(
+    let user = await User.findByIdAndUpdate(
       { _id: req.params.id },
       {
         confirmed: true,
