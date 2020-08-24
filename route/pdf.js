@@ -82,7 +82,7 @@ router.get("/download/:filename", (req, res) => {
       });
     }
 
-    res.status(200).json({ sucess: true, file: files[0] });
+    // res.status(200).json({ sucess: true, file: files[0] });
     res.render(files[[0]]);
   });
 });
