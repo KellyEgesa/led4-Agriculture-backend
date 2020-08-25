@@ -40,8 +40,8 @@ router.put("/confirmed/:id", async (req, res) => {
     const token = user.generateAuthToken();
     res
       // .send("success")
-      // .header("x-auth-token", token)
-      // .header("access-control-expose-headers", "x-auth-token")
+      .header("x-auth-token", token)
+      .header("access-control-expose-headers", "x-auth-token")
       .send(token);
   } catch (ex) {
     res.status(400).send(ex);
