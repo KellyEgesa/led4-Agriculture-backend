@@ -39,9 +39,9 @@ router.put("/confirmed/:id", async (req, res) => {
     let user = await User.findById(req.params.id);
     const token = user.generateAuthToken();
     res
-      .send("success")
-      .header("x-auth-token", token)
-      .header("access-control-expose-headers", "x-auth-token")
+      // .send("success")
+      // .header("x-auth-token", token)
+      // .header("access-control-expose-headers", "x-auth-token")
       .send(token);
   } catch (ex) {
     res.status(400).send(ex);
