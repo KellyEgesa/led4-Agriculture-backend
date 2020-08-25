@@ -53,7 +53,7 @@ router.get("/load/:filename", (req, res) => {
       });
     }
 
-    gfs.openDownloadStreamByName(req.params.filename).pipe(res);
+    gfs.createReadStream(req.params.filename).pipe(res);
   });
 });
 
