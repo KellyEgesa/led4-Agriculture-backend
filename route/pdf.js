@@ -46,7 +46,7 @@ router.post("/upload", upload, [auth, editor], function (req, res) {
 });
 
 router.get("/load/:filename", (req, res) => {
-  gfs.files.find({ filename: req.params.filename }).toArray((err, files) => {
+  gfs.find({ filename: req.params.filename }).toArray((err, files) => {
     if (!files[0] || files.length === 0) {
       return res.status(200).json({
         success: false,
