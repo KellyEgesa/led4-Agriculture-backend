@@ -142,10 +142,10 @@ router.post("/forgotPassword", async (req, res) => {
   res.send("An link has been sent to your Email address");
 });
 
-router.get("/reset", async (req, res) => {
+router.get("/reset/:id", async (req, res) => {
   let user = await User.findOne({
     resetPasswordExpires: { $gt: Date.now() },
-    resetPasswordToken: req.query.resetPasswordToken,
+    resetPasswordToken: req.params.id,
   });
   // console.log(req.query.resetPasswordToken);
   if (!user)
