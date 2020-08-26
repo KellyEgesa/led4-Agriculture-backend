@@ -171,4 +171,33 @@ router.put("/updatePasswordViaEmail", async (req, res) => {
     res.send("something went wrong");
   }
 });
+
+router.post("/module/:id", async (req, res) => {
+  let user = User.findById(req.params.id);
+  if (!user) return res.status(400).send("User doesnt exists");
+
+  const learning = {
+    pageNumber: 1,
+    modules: req.body.module,
+    marks: "Not yet done",
+  };
+  let user1 = user.findOne({ modules: req.body.module });
+  if (!user1) {
+    User.updateOne(
+      { _id: req.params.id },
+      { $push: { moduleLearning: learning } }
+    );
+    return res.send(User.findById(req.params.id));
+  }
+  return res.send(user);
+});
+
+setInterval(async function () {
+  try {
+    await User.deleteMany({ confirmed: false, delTime: { $gt: Date.now() } });
+  } catch (ex) {
+    console.log(ex);
+  }
+}, 86400000);
+
 module.exports = router;
