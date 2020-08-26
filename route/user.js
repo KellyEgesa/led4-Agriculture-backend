@@ -101,42 +101,43 @@ router.post("/add", async (req, res) => {
 });
 
 router.post("/forgotPassword", async (req, res) => {
-  let user = await User.findOne({ email: req.body.email });
-  if (!user) return res.status(400).send("Email doesnt exists");
-
-  const token = crypto.randomBytes(20).toString("hex");
-  user.update({
-    resetPasswordToken: token,
-    resetPasswordExpires: Date.now() + 3600000,
+  await User.findOne({ email: req.body.email }).then((user) => {
+    if (user === null) {
+      res.status(403).send("email not found");
+    } else {
+      const token = crypto.randomBytes(20).toString("hex");
+      user.update({
+        resetPasswordToken: token,
+        resetPasswordExpires: Date.now() + 3600000,
+      });
+      const reseturl = config.get("front-end") + "reset/" + token;
+      const html = () => {
+        return `<body style="padding: 2%;""><div style="width: 85%;
+        height: 85%;
+        padding: 5%;
+        display: flex;
+        border: 1px solid black; 
+        align-items: center;">
+        <p>Hi ${user.firstname} ${user.lastname}!<br>You are receiving this email because you have requested to reset your password for your LED4Agriculture account<br>Please click on the following link within an hour to reset your password<br>If you did not request the password change kindly ignore the link. Your password will remain unchanged.<br> <a href=${reseturl}><button style="background-color: blue; 
+        border: none;
+        color: white;
+        padding: 20px; 
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin: 10%;
+        cursor: pointer;
+        border-radius: 15px;">CONFIRM MY EMAIL </button></a>
+      </p>
+      </div></body>`;
+      };
+      const subject = "REF: LINK TO RESET PASSWORD";
+      const text = "";
+      email(user.email, subject, text, html());
+      res.send("An link has been sent to your Email address");
+    }
   });
-  await user.save();
-  const reseturl = config.get("front-end") + "reset/" + token;
-
-  const html = () => {
-    return `<body style="padding: 2%;""><div style="width: 85%;
-    height: 85%;
-    padding: 5%;
-    display: flex;
-    border: 1px solid black; 
-    align-items: center;">
-    <p>Hi ${user.firstname} ${user.lastname}!<br>You are receiving this email because you have requested to reset your password for your LED4Agriculture account<br>Please click on the following link within an hour to reset your password<br>If you did not request the password change kindly ignore the link. Your password will remain unchanged.<br> <a href=${reseturl}><button style="background-color: blue; 
-    border: none;
-    color: white;
-    padding: 20px; 
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    margin: 10%;
-    cursor: pointer;
-    border-radius: 15px;">CONFIRM MY EMAIL </button></a>
-  </p>
-  </div></body>`;
-  };
-  const subject = "REF: LINK TO RESET PASSWORD";
-  const text = "";
-  email(req.body.email, subject, text, html());
-  res.send("An link has been sent to your Email address");
 });
 
 router.get("/reset", async (req, res) => {
