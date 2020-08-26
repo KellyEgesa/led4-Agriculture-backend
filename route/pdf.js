@@ -18,7 +18,7 @@ const connect = mongoose.createConnection(url, {
 let gfs;
 
 connect.once("open", () => {
-  gfs = gridStream(connect.db, mongoose.mongo);
+  gfs = GridFsStorage(connect.db, mongoose.mongo);
   gfs.collection("uploads");
 });
 
