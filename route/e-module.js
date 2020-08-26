@@ -26,7 +26,7 @@ router.get("/:id", async (req, res) => {
 });
 
 router.post("/", [auth, editor], async (req, res) => {
-  const { error } = validateModules(req.body);
+  const { error } = validateeModules(req.body);
   if (error) return res.status(400).send(error.details[0].message);
 
   emoduless = new emodules({
