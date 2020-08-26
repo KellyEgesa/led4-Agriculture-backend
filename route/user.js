@@ -109,7 +109,7 @@ router.post("/forgotPassword", async (req, res) => {
     resetPasswordToken: token,
     resetPasswordExpires: Date.now() + 3600000,
   });
-
+  await user.save();
   const reseturl = config.get("front-end") + "reset/" + token;
 
   const html = () => {
@@ -172,36 +172,40 @@ router.put("/updatePasswordViaEmail", async (req, res) => {
   }
 });
 
-// router.post("/module/:id", async (req, res) => {
-//   let user = await User.findById(req.params.id);
-//   if (!user) return res.status(400).send("User doesnt exists");
+router.post("/module/:id", async (req, res) => {
+  let user = await User.findById(req.params.id);
+  if (!user) return res.status(400).send("User doesnt exists");
 
-//   let user1 = await User.findOne({
-//     _id: req.params.id,
-//     modules: req.body.module,
-//   });
-//   if (!user1) {
-//     await User.updateOne(
-//       { _id: req.params.id },
-//       {
-//         $push: {
-//           moduleLearning: {
-//             pageNumber: 1,
-//             modules: req.body.module,
-//             marks: "Not yet done",
-//           },
-//         },
-//       }
-//     );
-//     let user2 = await User.findOne({
-//       _id: req.params.id,
-//       modules: req.body.module,
-//     });
-//     return res.send(user2);
-//   } else {
-//     return res.send(user1);
-//   }
-// });
+  let user1 = Users.find(
+    { _id: req.params.id },
+    { modules: { $elemMatch: { _id: req.body.module } } }
+  );
+
+  if (!user1) {
+    user1.update({
+      models: { _id: req.body.module, pageNumber: 1 },
+    });
+    await User.updateOne(
+      { _id: req.params.id },
+      {
+        $push: {
+          moduleLearning: {
+            pageNumber: 1,
+            modules: req.body.module,
+            marks: "Not yet done",
+          },
+        },
+      }
+    );
+    let user2 = await User.findOne({
+      _id: req.params.id,
+      modules: req.body.module,
+    });
+    return res.send(user2);
+  } else {
+    return res.send(user1);
+  }
+});
 
 // router.put("/module/page/:id", async (req, res) => {
 //   let user = User.findById(req.params.id);
