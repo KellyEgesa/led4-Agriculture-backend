@@ -42,7 +42,10 @@ router.post("/upload", upload, [auth, editor], function (req, res) {
     error.httpStatusCode = 400;
     return res.status(400);
   }
-  res.send(file.originalname).send(file);
+  res
+    .header("access-control-expose-headers", "x-auth-token")
+    .send(file.originalname)
+    .send(file);
 });
 
 router.get("/load/:filename", (req, res) => {
