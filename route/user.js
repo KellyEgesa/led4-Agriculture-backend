@@ -144,7 +144,7 @@ router.post("/forgotPassword", async (req, res) => {
 
 router.get("/reset", async (req, res) => {
   let user = await User.findOne({
-    resetPasswordExpires: { $gt: Date.now() },
+    // resetPasswordExpires: { $gt: Date.now() },
     resetPasswordToken: req.query.resetPasswordToken,
   });
   // console.log(req.query.resetPasswordToken);
