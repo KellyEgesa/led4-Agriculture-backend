@@ -30,7 +30,7 @@ router.post("/", [auth, editor], async (req, res) => {
   if (error) return res.status(400).send(error.details[0].message);
 
   emoduless = new emodules({
-    etopic: req.body.topic,
+    topic: req.body.topic,
     heading: req.body.heading,
     description: req.body.description,
     url: req.body.url,

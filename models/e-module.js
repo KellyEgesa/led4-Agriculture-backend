@@ -39,7 +39,7 @@ function validateeModules(eModules) {
   const schema = Joi.object({
     heading: Joi.string().min(2).max(20).required(),
     description: Joi.string().min(3).max(255).required(),
-    etopic: Joi.string(),
+    topic: Joi.string(),
     url: Joi.string().required(),
     filename: Joi.string().required(),
     added: Joi.boolean(),
