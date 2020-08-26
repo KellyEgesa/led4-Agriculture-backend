@@ -147,7 +147,6 @@ router.get("/reset/:id", async (req, res) => {
     resetPasswordExpires: { $gt: Date.now() },
     resetPasswordToken: req.params.id,
   }).select("email");
-  // console.log(req.query.resetPasswordToken);
   if (!user)
     return res.status(400).send("Password link is invalid or has expired");
   console.log(user);
@@ -162,7 +161,7 @@ router.put("/updatePasswordViaEmail", async (req, res) => {
   newPassword = await bcrypt.hash(req.body.password, salt);
 
   try {
-    await User.Update(
+    await User.findOneAndUpdate(
       { email: req.body.email },
       {
         password: newPassword,
@@ -172,7 +171,7 @@ router.put("/updatePasswordViaEmail", async (req, res) => {
     );
     res.send("Password Updated");
   } catch (ex) {
-    res.send("something went wrong");
+    res.status(403).send("something went wrong");
   }
 });
 
