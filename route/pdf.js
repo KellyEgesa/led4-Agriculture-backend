@@ -35,17 +35,14 @@ const storage = new GridFsStorage({
 
 const upload = multer({ storage }).single("file");
 
-router.post("/upload", upload, [auth, editor], function (req, res) {
+router.post("/upload", upload, [auth, admin], function (req, res) {
   const file = req.file;
   if (!file) {
     const error = new Error("Please upload a file");
     error.httpStatusCode = 400;
     return res.status(400);
   }
-  res
-    .header("access-control-expose-headers", "x-auth-token")
-    .send(file.originalname)
-    .send(file);
+  return res.send(file.originalname).send(file);
 });
 
 router.get("/load/:filename", (req, res) => {
