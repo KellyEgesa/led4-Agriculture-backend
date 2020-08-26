@@ -178,7 +178,7 @@ router.post("/module/:id", async (req, res) => {
 
   let user1 = user.findOne({ modules: req.body.module });
   if (!user1) {
-    User.updateOne(
+    await User.updateOne(
       { _id: req.params.id },
       {
         $push: {
