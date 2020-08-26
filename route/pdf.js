@@ -35,7 +35,7 @@ const storage = new GridFsStorage({
 
 const upload = multer({ storage }).single("file");
 
-router.post("/upload", upload, function (req, res) {
+router.post("/upload", [auth, admin], upload, function (req, res) {
   const file = req.file;
   if (!file) {
     const error = new Error("Please upload a file");
