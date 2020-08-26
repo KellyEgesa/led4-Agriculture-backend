@@ -33,7 +33,7 @@ const storage = new GridFsStorage({
   },
 });
 
-const upload = multer({ storage: storage }).single("file");
+const upload = multer({ storage }).single("file");
 
 router.post("/upload", upload, function (req, res) {
   const file = req.file;
