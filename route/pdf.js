@@ -18,8 +18,9 @@ const connect = mongoose.createConnection(url, {
 let gfs;
 
 connect.once("open", () => {
-  gfs = GridFsStorage(connect.db, mongoose.mongo);
-  gfs.collection("uploads");
+  gfs = new mongoose.mongo.GridFSBucket(connect.db, {
+    bucketName: "uploads",
+  });
 });
 
 const storage = new GridFsStorage({
