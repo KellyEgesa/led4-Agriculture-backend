@@ -36,10 +36,10 @@ const modules = mongoose.model(
       type: String,
       required: true,
     },
-    fileid: {
-      type: String,
-      required: true,
-    },
+    // fileid: {
+    //   type: String,
+    //   required: true,
+    // },
   })
 );
 
