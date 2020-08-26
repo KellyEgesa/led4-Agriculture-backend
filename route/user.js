@@ -144,11 +144,10 @@ router.post("/forgotPassword", async (req, res) => {
 
 router.get("/reset", async (req, res) => {
   let user = await User.findOne({
-    // resetPasswordExpires: { $gt: Date.now() },
-    resetPasswordToken: req.query.resetPasswordToken,
+    resetPasswordExpires: { $gt: Date.now() },
   });
   // console.log(req.query.resetPasswordToken);
-  if (!user)
+  if (!user || user.resetPasswordToken != req.query.resetPasswordToken)
     return res.status(400).send("Password link is invalid or has expired");
   console.log(user);
   res.status(200).send({ message: "Valid password link" });
