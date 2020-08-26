@@ -33,6 +33,10 @@ const userSchema = new mongoose.Schema({
   isAdmin: { type: Boolean, default: false },
   editor: { type: Boolean, default: false },
   delTime: { type: Date },
+  resetPasswordToken: {
+    type: String,
+  },
+  resetPasswordExpires: { type: Date },
 });
 
 userSchema.methods.generateAuthToken = function () {
