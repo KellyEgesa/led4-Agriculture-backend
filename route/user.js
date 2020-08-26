@@ -169,7 +169,11 @@ router.put("/updatePasswordViaEmail", async (req, res) => {
         resetPasswordExpires: null,
       }
     );
-    res.send("Password Updated");
+    const token = user.generateAuthToken();
+    res
+      .header("x-auth-token", token)
+      .header("access-control-expose-headers", "x-auth-token")
+      .send(token);
   } catch (ex) {
     res.status(403).send("something went wrong");
   }
