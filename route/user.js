@@ -177,7 +177,7 @@ router.post("/module/:id", async (req, res) => {
   if (!user) return res.status(400).send("User doesnt exists");
 
   const learning = {
-    pageNumber: 1,
+    pageNumber: req.body.pageNumber,
     modules: req.body.module,
     marks: "Not yet done",
   };
@@ -188,8 +188,29 @@ router.post("/module/:id", async (req, res) => {
       { $push: { moduleLearning: learning } }
     );
     return res.send(User.findById(req.params.id));
+  } else {
+    User.updateOne(
+      { _id: req.params.id, "moduleLearning.modules": req.body.module },
+      { $set: { "moduleLearning.$.pageNumber": req.body.pageNumber } }
+    );
+    return res.send(User.findById(req.params.id));
   }
-  return res.send(user);
+});
+
+router.put("/module/mark/:id", async (req, res) => {
+  let user = User.findById(req.params.id);
+  if (!user) return res.status(400).send("User doesnt exists");
+
+  let user1 = user.findOne({ modules: req.body.module });
+  if (!user1) {
+    return res.send("Not found");
+  } else {
+    User.updateOne(
+      { _id: req.params.id, "moduleLearning.modules": req.body.module },
+      { $set: { "moduleLearning.$.marks": req.body.marks } }
+    );
+    return res.send(User.findById(req.params.id));
+  }
 });
 
 setInterval(async function () {
