@@ -150,7 +150,7 @@ router.get("/reset", async (req, res) => {
   if (!user)
     return res.status(400).send("Password link is invalid or has expired");
 
-  res.status(200).send({ email: user.email, message: "Valid password link" });
+  res.status(200).send({ user, message: "Valid password link" });
 });
 
 router.put("/updatePasswordViaEmail", async (req, res) => {
