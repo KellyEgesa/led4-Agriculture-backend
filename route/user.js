@@ -173,10 +173,10 @@ router.put("/updatePasswordViaEmail", async (req, res) => {
 });
 
 router.post("/module/:id", async (req, res) => {
-  let user = User.findById(req.params.id);
+  let user = await User.findById(req.params.id);
   if (!user) return res.status(400).send("User doesnt exists");
 
-  let user1 = user.findOne({ modules: req.body.module });
+  let user1 = await user.findOne({ modules: req.body.module });
   if (!user1) {
     await User.updateOne(
       { _id: req.params.id },
@@ -190,7 +190,7 @@ router.post("/module/:id", async (req, res) => {
         },
       }
     );
-    let user2 = user.findOne({ modules: req.body.module });
+    let user2 = await user.findOne({ modules: req.body.module });
     return res.send(user2);
   } else {
     return res.send(user1);
