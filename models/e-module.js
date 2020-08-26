@@ -4,7 +4,7 @@ const Joi = require("joi");
 const emodules = mongoose.model(
   "emodules",
   new mongoose.Schema({
-    etopic: {
+    topic: {
       type: String,
       required: true,
       minlength: 2,
