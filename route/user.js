@@ -196,7 +196,7 @@ router.post("/module/:id", async (req, res) => {
 
   if (user.module.length > 0) {
     const a = user.module.includes({
-      moduleid: moduleid,
+      pageNumber: 5,
     });
     console.log(a);
     // for (let i = 0; i < user.module.length; i++) {
