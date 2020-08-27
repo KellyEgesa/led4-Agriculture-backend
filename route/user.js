@@ -5,6 +5,7 @@ const { User, validate, validateUser1 } = require("../models/user");
 const express = require("express");
 const _ = require("lodash");
 var ObjectID = require("mongodb").ObjectID;
+var ObjectId = require("mongoose").Types.ObjectId;
 const { email } = require("../email/email");
 const { send } = require("process");
 const router = express.Router();
