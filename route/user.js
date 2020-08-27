@@ -180,71 +180,74 @@ router.put("/updatePasswordViaEmail", async (req, res) => {
 });
 
 router.post("/module/:id", async (req, res) => {
-  let user = await User.findById(req.params.id);
+  let user = await User.findById(req.params.id).select("module");
   if (!user) return res.status(400).send("User doesnt exists");
-
-  let user1 = Users.find(
-    { _id: req.params.id },
-    { modules: { $elemMatch: { _id: req.body.module } } }
-  );
-
-  if (!user1) {
-    user1.update({
-      models: { _id: req.body.module, pageNumber: 1 },
-    });
-    await User.updateOne(
-      { _id: req.params.id },
-      {
-        $push: {
-          moduleLearning: {
-            pageNumber: 1,
-            modules: req.body.module,
-            marks: "Not yet done",
-          },
-        },
+  const moduleid = req.body.modules;
+  if (user.module.length > 0) {
+    for (let i = 0; i < user.module.length; i++) {
+      if (user.module[i].moduleid == moduleid) {
+        return res.send(user.module[i]);
+      } else {
+        user.module.push({
+          moduleid: moduleid,
+          pageNumber: 1,
+          marks: "not yet done",
+        });
+        res.send(await user.save());
       }
-    );
-    let user2 = await User.findOne({
-      _id: req.params.id,
-      modules: req.body.module,
-    });
-    return res.send(user2);
+    }
   } else {
-    return res.send(user1);
+    user.module = [
+      { moduleid: moduleid, pageNumber: 1, marks: "not yet done" },
+    ];
+    await user.save();
+    res.send(user.module);
   }
 });
 
-// router.put("/module/page/:id", async (req, res) => {
-//   let user = User.findById(req.params.id);
-//   if (!user) return res.status(400).send("User doesnt exists");
+router.put("/module/page/:id", async (req, res) => {
+  let user = await User.findById(req.params.id).select("module");
+  if (!user) return res.status(400).send("User doesnt exists");
+  const moduleid =
+    // req.body.id
+    329890;
+  const page = 10;
+  for (let i = 0; i < user.module.length; i++) {
+    if (user.module[i].moduleid == moduleid) {
+      user.module[i].pageNumber = page;
+      const a = user.module[i];
+      user.module.splice(i, a);
 
-//   let user1 = user.findOne({ modules: req.body.module });
-//   if (!user1) {
-//     return res.send("Not found");
-//   } else {
-//     User.updateOne(
-//       { _id: req.params.id, "moduleLearning.modules": req.body.module },
-//       { $set: { "moduleLearning.$.pageNumber": req.body.pageNumber } }
-//     );
-//     return res.send(User.findById(req.params.id));
-//   }
-// });
+      res.send(await user.save());
+    } else {
+      res.send("module not found");
+    }
+  }
 
-// router.put("/module/mark/:id", async (req, res) => {
-//   let user = User.findById(req.params.id);
-//   if (!user) return res.status(400).send("User doesnt exists");
+  // res.send(await User.findById(req.params.id));
+});
 
-//   let user1 = user.findOne({ modules: req.body.module });
-//   if (!user1) {
-//     return res.send("Not found");
-//   } else {
-//     User.updateOne(
-//       { _id: req.params.id, "moduleLearning.modules": req.body.module },
-//       { $set: { "moduleLearning.$.marks": req.body.marks } }
-//     );
-//     return res.send(User.findById(req.params.id));
-//   }
-// });
+router.put("/module/mark/:id", async (req, res) => {
+  let user = await User.findById(req.params.id).select("module");
+  if (!user) return res.status(400).send("User doesnt exists");
+  const moduleid =
+    // req.body.id
+    329890;
+  const marks = 10;
+  for (let i = 0; i < user.module.length; i++) {
+    if (user.module[i].moduleid == moduleid) {
+      user.module[i].marks = marks;
+      const a = user.module[i];
+      user.module.splice(i, a);
+
+      res.send(await user.save());
+    } else {
+      res.send("module not found");
+    }
+  }
+
+  res.send(await user.save());
+});
 
 setInterval(async function () {
   try {

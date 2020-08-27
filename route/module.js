@@ -12,10 +12,14 @@ const router = express.Router();
 
 //mongoose model
 
-router.get("/", auth, async (req, res) => {
-  const moduless = await modules.find().sort();
-  res.send(moduless);
-});
+router.get(
+  "/",
+  // auth,
+  async (req, res) => {
+    const moduless = await modules.find().sort();
+    res.send(moduless);
+  }
+);
 
 router.get("/:id", auth, async (req, res) => {
   const ob = ObjectID.isValid(req.params.id);
