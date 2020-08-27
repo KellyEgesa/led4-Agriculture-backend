@@ -190,8 +190,9 @@ router.post("/module/:id", async (req, res) => {
   const ob = ObjectID.isValid(modules);
   if (!ob) return res.status(404).send("Page not found");
 
-  // const moduleid = new ObjectId(ob);
-  console.log(modules);
+  const moduleid = modules.toString();
+
+  console.log(moduleid);
   // if (user.module.length > 0) {
   //   for (let i = 0; i < user.module.length; i++) {
   //     if (user.module[i].moduleid === moduleid) {
