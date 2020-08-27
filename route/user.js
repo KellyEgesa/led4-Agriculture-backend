@@ -4,6 +4,7 @@ const config = require("config");
 const { User, validate, validateUser1 } = require("../models/user");
 const express = require("express");
 const _ = require("lodash");
+var ObjectID = require("mongodb").ObjectID;
 const { email } = require("../email/email");
 const { send } = require("process");
 const router = express.Router();
@@ -182,7 +183,12 @@ router.put("/updatePasswordViaEmail", async (req, res) => {
 router.post("/module/:id", async (req, res) => {
   let user = await User.findById(req.params.id).select("module");
   if (!user) return res.status(400).send("User doesnt exists");
+
   const moduleid = req.body.modules;
+
+  const ob = ObjectID.isValid(moduleid);
+  if (!ob) return res.status(404).send("Page not found");
+
   if (user.module.length > 0) {
     for (let i = 0; i < user.module.length; i++) {
       if (user.module[i].moduleid == moduleid) {
