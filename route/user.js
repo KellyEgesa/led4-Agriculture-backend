@@ -192,28 +192,28 @@ router.post("/module/:id", async (req, res) => {
 
   const moduleid = modules.toString();
 
-  console.log(user.module[2].moduleid === moduleid);
+  // console.log(user.module[2].moduleid === moduleid);
 
-  // if (user.module.length > 0) {
-  //   for (let i = 0; i < user.module.length; i++) {
-  //     if (user.module[i].moduleid === moduleid) {
-  //       return res.send(user.module[i]);
-  //     } else {
-  //       user.module.push({
-  //         moduleid: moduleid,
-  //         pageNumber: 1,
-  //         marks: "not yet done",
-  //       });
-  //       res.send(await user.save());
-  //     }
-  //   }
-  // } else {
-  //   user.module = [
-  //     { moduleid: moduleid, pageNumber: 1, marks: "not yet done" },
-  //   ];
-  //   await user.save();
-  //   res.send(user.module);
-  // }
+  if (user.module.length > 0) {
+    for (let i = 0; i < user.module.length; i++) {
+      if (user.module[i].moduleid === moduleid) {
+        return res.send(user.module[i]);
+      } else {
+        user.module.push({
+          moduleid: moduleid,
+          pageNumber: 5,
+          marks: "not yet done",
+        });
+        res.send(await user.save());
+      }
+    }
+  } else {
+    user.module = [
+      { moduleid: moduleid, pageNumber: 1, marks: "not yet done" },
+    ];
+    await user.save();
+    res.send(user.module);
+  }
 });
 
 router.put("/module/page/:id", async (req, res) => {
