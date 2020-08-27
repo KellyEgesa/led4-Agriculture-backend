@@ -195,20 +195,25 @@ router.post("/module/:id", async (req, res) => {
   // console.log(user.module[2].moduleid === moduleid);
 
   if (user.module.length > 0) {
-    for (let i = 0; i < user.module.length; i++) {
-      if (user.module[i].moduleid === moduleid) {
-        return console.log("found");
-        // return res.send(user.module[i]);
-      } else {
-        return console.log("notfound");
-        // user.module.push({
-        //   moduleid: moduleid,
-        //   pageNumber: 5,
-        //   marks: "not yet done",
-        // });
-        // res.send(await user.save());
-      }
-    }
+    const a = user.module.moduleid.includes(moduleid);
+    console.log(a);
+    // for (let i = 0; i < user.module.length; i++) {
+    //   let b = "not found"
+    //   if (user.module[i].moduleid === moduleid) {
+    //     b = "found";
+    //     return console.log("found");
+    //     // return res.send(user.module[i]);
+    //   }
+    //   else {
+    //     return console.log("notfound");
+    //     // user.module.push({
+    //     //   moduleid: moduleid,
+    //     //   pageNumber: 5,
+    //     //   marks: "not yet done",
+    //     // });
+    //     // res.send(await user.save());
+    //   }
+    // }
   } else {
     user.module = [
       { moduleid: moduleid, pageNumber: 1, marks: "not yet done" },
