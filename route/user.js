@@ -197,10 +197,10 @@ router.post("/module/:id", async (req, res) => {
   if (user.module.length > 0) {
     for (let i = 0; i < user.module.length; i++) {
       if (user.module[i].moduleid === moduleid) {
-        console.log("found");
+        return console.log("found");
         // return res.send(user.module[i]);
       } else {
-        console.log("notfound");
+        return console.log("notfound");
         // user.module.push({
         //   moduleid: moduleid,
         //   pageNumber: 5,
