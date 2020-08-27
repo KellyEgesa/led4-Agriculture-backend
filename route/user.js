@@ -195,7 +195,9 @@ router.post("/module/:id", async (req, res) => {
   // console.log(user.module[2].moduleid === moduleid);
 
   if (user.module.length > 0) {
-    const a = user.module.includes(moduleid);
+    const a = user.module.includes({
+      moduleid: moduleid,
+    });
     console.log(a);
     // for (let i = 0; i < user.module.length; i++) {
     //   let b = "not found"
