@@ -202,7 +202,7 @@ router.post("/module/:id", async (req, res) => {
     }
     user.module.push({
       moduleid: moduleid,
-      pageNumber: 5,
+      pageNumber: 1,
       marks: "not yet done",
     });
     res.send(await user.save());
@@ -218,10 +218,14 @@ router.post("/module/:id", async (req, res) => {
 router.put("/module/page/:id", async (req, res) => {
   let user = await User.findById(req.params.id).select("module");
   if (!user) return res.status(400).send("User doesnt exists");
-  const moduleid =
-    // req.body.id
-    329890;
-  const page = 10;
+
+  const modules = req.body.modules;
+  const page = req.body.pageNumber;
+
+  const ob = ObjectID.isValid(modules);
+  if (!ob) return res.status(404).send("Page not found");
+  const moduleid = modules.toString();
+  console.log(ob);
   for (let i = 0; i < user.module.length; i++) {
     if (user.module[i].moduleid == moduleid) {
       user.module[i].pageNumber = page;
@@ -229,11 +233,9 @@ router.put("/module/page/:id", async (req, res) => {
       user.module.splice(i, a);
 
       res.send(await user.save());
-    } else {
-      res.send("module not found");
     }
   }
-
+  // res.send("module not found");
   // res.send(await User.findById(req.params.id));
 });
 
