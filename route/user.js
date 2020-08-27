@@ -184,11 +184,12 @@ router.post("/module/:id", async (req, res) => {
   let user = await User.findById(req.params.id).select("module");
   if (!user) return res.status(400).send("User doesnt exists");
 
-  const moduleid = req.body.modules;
+  const modules = req.body.modules;
 
-  const ob = ObjectID.isValid(moduleid);
+  const ob = ObjectID.isValid(modules);
   if (!ob) return res.status(404).send("Page not found");
 
+  const moduleid = new ObjectId(ob);
   if (user.module.length > 0) {
     for (let i = 0; i < user.module.length; i++) {
       if (user.module[i].moduleid === moduleid) {
