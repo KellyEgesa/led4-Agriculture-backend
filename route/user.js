@@ -197,14 +197,16 @@ router.post("/module/:id", async (req, res) => {
   if (user.module.length > 0) {
     for (let i = 0; i < user.module.length; i++) {
       if (user.module[i].moduleid === moduleid) {
-        return res.send(user.module[i]);
+        console.log("found");
+        // return res.send(user.module[i]);
       } else {
-        user.module.push({
-          moduleid: moduleid,
-          pageNumber: 5,
-          marks: "not yet done",
-        });
-        res.send(await user.save());
+        console.log("notfound");
+        // user.module.push({
+        //   moduleid: moduleid,
+        //   pageNumber: 5,
+        //   marks: "not yet done",
+        // });
+        // res.send(await user.save());
       }
     }
   } else {
