@@ -197,7 +197,7 @@ router.post("/module/:id", async (req, res) => {
   if (user.module.length > 0) {
     for (let i = 0; i < user.module.length; i++) {
       if (user.module[i].moduleid === moduleid) {
-        return res.send(user.module[i]);
+        return res.send(user.module[1]);
       }
     }
     user.module.push({
