@@ -32,7 +32,6 @@ router.post("/", [auth, editor], async (req, res) => {
   emoduless = new emodules({
     topic: req.body.topic,
     heading: req.body.heading,
-    description: req.body.description,
     url: req.body.url,
     filename: req.body.filename,
     added: req.body.added,

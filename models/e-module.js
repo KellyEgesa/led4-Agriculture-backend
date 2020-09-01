@@ -16,10 +16,6 @@ const emodules = mongoose.model(
       minlength: 2,
       maxlength: 255,
     },
-    description: {
-      type: String,
-      required: true,
-    },
     url: {
       type: String,
       required: true,
@@ -38,7 +34,6 @@ const emodules = mongoose.model(
 function validateeModules(eModules) {
   const schema = Joi.object({
     heading: Joi.string().min(2).max(255).required(),
-    description: Joi.string().min(3).max(255).required(),
     topic: Joi.string(),
     url: Joi.string().required(),
     filename: Joi.string().required(),
