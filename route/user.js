@@ -235,8 +235,6 @@ router.put("/module/page/:id", async (req, res) => {
       res.send(await user.save());
     }
   }
-  // res.send("module not found");
-  // res.send(await User.findById(req.params.id));
 });
 
 router.put("/module/mark/:id", async (req, res) => {
