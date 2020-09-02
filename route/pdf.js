@@ -59,22 +59,21 @@ router.get("/load/:filename", (req, res) => {
 });
 
 router.get("/delete/:filename", [auth, editor], (req, res) => {
-  console.log(req.params.filename);
-  // gfs.files.find({ filename: req.params.filename }).toArray((err, files) => {
-  //   if (!files[0] || files.length === 0) {
-  //     return res.status(200).json({
-  //       success: false,
-  //       message: "No files available",
-  //     });
-  //   }
+  gfs.find({ filename: req.params.filename }).toArray((err, files) => {
+    if (!files[0] || files.length === 0) {
+      return res.status(200).json({
+        success: false,
+        message: "No files available",
+      });
+    }
 
-  //   gfs.delete(files[0]._id, (err, data) => {
-  //     if (err) {
-  //       return res.status(404).json({ err: err });
-  //     }
-  //     res.send("File Deleted");
-  //   });
-  // });
+    gfs.delete(files[0]._id, (err, data) => {
+      if (err) {
+        return res.status(404).json({ err: err });
+      }
+      res.send("File Deleted");
+    });
+  });
 });
 
 router.get("/download/:filename", (req, res) => {
