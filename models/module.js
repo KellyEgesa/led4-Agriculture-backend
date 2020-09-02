@@ -18,7 +18,7 @@ const modules = mongoose.model(
       type: String,
       required: true,
       minlength: 2,
-      maxlength: 20,
+      maxlength: 200,
     },
     description: {
       type: String,
@@ -45,7 +45,7 @@ const modules = mongoose.model(
 
 function validateModules(Modules) {
   const schema = Joi.object({
-    heading: Joi.string().min(2).max(20).required(),
+    heading: Joi.string().min(2).max(200).required(),
     description: Joi.string().min(3).max(255).required(),
     topic: Joi.string(),
     url: Joi.string(),
