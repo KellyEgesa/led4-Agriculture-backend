@@ -134,7 +134,7 @@ router.post("/forgotPassword", async (req, res) => {
     font-size: 16px;
     margin: 10%;
     cursor: pointer;
-    border-radius: 15px;">CONFIRM MY EMAIL </button></a>
+    border-radius: 15px;">RESET MY PASSWORD </button></a>
   </p>
   </div></body>`;
   };
