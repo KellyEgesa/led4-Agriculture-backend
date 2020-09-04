@@ -60,10 +60,9 @@ router.put("/:id", [auth, editor], async (req, res) => {
   const { error } = validateModules(req.body);
   if (error) return res.status(400).send(error.details[0].message);
 
-  await modules.findByIdAndUpdate(req.params.id, {
+  const newModule = await modules.findByIdAndUpdate(req.params.id, {
     $set: {
       number: req.body.number,
-      // topic: req.body.topic,
       heading: req.body.heading,
       description: req.body.description,
       url: req.body.url,
@@ -71,7 +70,7 @@ router.put("/:id", [auth, editor], async (req, res) => {
       added: req.body.added,
     },
   });
-  // res.send(newModule);
+  res.send(newModule);
 });
 
 router.put("/heading", [auth, editor], async (req, res) => {
