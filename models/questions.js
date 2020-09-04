@@ -5,14 +5,8 @@ const question = mongoose.model(
   "question",
   new mongoose.Schema({
     modules: {
-      type: new mongoose.Schema({
-        topic: {
-          type: Object,
-          required: true,
-          minlength: 2,
-          maxlength: 20,
-        },
-      }),
+      type: String,
+      required: true,
     },
     question: { type: String, required: true },
     A: { type: String, required: true },
@@ -34,7 +28,7 @@ function validateQuestion(question) {
     D: Joi.string().required(),
     answer: Joi.string().min(1).max(1).required(),
     description: Joi.string().required(),
-    modules: Joi.objectId().required(),
+    modules: Joi.string().required(),
   });
   return schema.validate(question);
 }
