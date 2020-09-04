@@ -71,7 +71,7 @@ router.put("/:id", [auth, editor], async (req, res) => {
   //   filename: req.body.filename,
   //   added: req.body.added,
   // },
-  res.send(newModule);
+  // res.send(newModule);
 });
 
 router.put("/heading", [auth, editor], async (req, res) => {
