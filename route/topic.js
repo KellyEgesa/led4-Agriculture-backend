@@ -26,6 +26,7 @@ router.get("/:id", auth, async (req, res) => {
     .find({
       topic: topics,
     })
+    .sort({ number: 1 })
     .select("-topic");
   res.send(result);
 });

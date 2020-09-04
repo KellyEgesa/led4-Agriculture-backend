@@ -215,28 +215,6 @@ router.post("/module/:id", async (req, res) => {
   }
 });
 
-router.put("/module/page/:id", async (req, res) => {
-  let user = await User.findById(req.params.id).select("module");
-  if (!user) return res.status(400).send("User doesnt exists");
-
-  const modules = req.body.modules;
-  const page = req.body.pageNumber;
-
-  const ob = ObjectID.isValid(modules);
-  if (!ob) return res.status(404).send("Page not found");
-  const moduleid = modules.toString();
-
-  for (let i = 0; i < user.module.length; i++) {
-    if (user.module[i].moduleid == moduleid) {
-      user.module[i].pageNumber = page;
-      const a = user.module[i];
-      user.module.splice(i, a);
-
-      res.send(await user.save());
-    }
-  }
-});
-
 router.put("/module/mark/:id", async (req, res) => {
   let user = await User.findById(req.params.id).select("module");
   if (!user) return res.status(400).send("User doesnt exists");

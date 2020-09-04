@@ -4,6 +4,10 @@ const Joi = require("joi");
 const modules = mongoose.model(
   "modules",
   new mongoose.Schema({
+    number: {
+      type: Number,
+      required: true,
+    },
     topic: {
       type: new mongoose.Schema({
         topic: {
@@ -45,7 +49,8 @@ const modules = mongoose.model(
 
 function validateModules(Modules) {
   const schema = Joi.object({
-    heading: Joi.string().min(2).max(200).required(),
+    number: Joi.number().required(),
+    heading: Joi.string().min(2).max(40).required(),
     description: Joi.string().min(3).max(255).required(),
     topic: Joi.string(),
     url: Joi.string(),
