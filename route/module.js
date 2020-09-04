@@ -56,6 +56,23 @@ router.post("/", [auth, editor], async (req, res) => {
   res.send(await moduless.save());
 });
 
+router.put("/:id", [auth, editor], async (req, res) => {
+  const { error } = validateModules(req.body);
+  if (error) return res.status(400).send(error.details[0].message);
+
+  const newModule = modules.findByIdAndUpdate(req.params.id, {
+    number: req.body.number,
+    topic: topics,
+    heading: req.body.heading,
+    description: req.body.description,
+    url: req.body.url,
+    filename: req.body.filename,
+    added: req.body.added,
+  });
+
+  res.send(newModule);
+});
+
 router.put("/heading", [auth, editor], async (req, res) => {
   function validate(Modules) {
     const schema = Joi.object({
@@ -108,13 +125,12 @@ router.put("/pdf", [auth, editor], async (req, res) => {
     res.status(500);
   }
 });
-
 router.delete("/:id", [auth, editor], async (req, res) => {
   const moduless = await modules.findByIdAndDelete(req.params.id);
   if (!moduless) return res.status(404).send("Page not found");
 
   try {
-    Question.deleteMany({ modules: moduless });
+    Question.deleteMany({ modules: req.params.id });
     res.send(moduless);
   } catch (error) {
     res.send("error");

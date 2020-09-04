@@ -202,14 +202,11 @@ router.post("/module/:id", async (req, res) => {
     }
     user.module.push({
       moduleid: moduleid,
-      pageNumber: 1,
       marks: "not yet done",
     });
     res.send(await user.save());
   } else {
-    user.module = [
-      { moduleid: moduleid, pageNumber: 1, marks: "not yet done" },
-    ];
+    user.module = [{ moduleid: moduleid, marks: "not yet done" }];
     await user.save();
     res.send(user.module);
   }

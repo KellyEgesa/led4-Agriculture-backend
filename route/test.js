@@ -22,7 +22,7 @@ router.get("/:id", async (req, res) => {
   const moduless = await modules.findById(req.params.id);
   if (!moduless) return res.status(404).send("Module not found");
 
-  const result = await Question.find({ modules: moduless });
+  const result = await Question.find({ modules: req.params.id });
   res.send(result);
 });
 

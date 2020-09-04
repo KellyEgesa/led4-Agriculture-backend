@@ -20,10 +20,10 @@ router.post("/", [auth, editor], async (req, res) => {
   if (error) return res.status(400).send(error.details[0].message);
 
   const moduless = await modules.findById(req.body.modules);
-  if (!modules) return res.status(404).send("module not found");
+  if (!moduless) return res.status(404).send("module not found");
 
   const question = new Question({
-    modules: moduless,
+    modules: req.body.modules,
     question: req.body.question,
     A: req.body.A,
     B: req.body.B,
