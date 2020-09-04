@@ -63,7 +63,7 @@ router.put("/:id", [auth, editor], async (req, res) => {
   await modules.findByIdAndUpdate(req.params.id, {
     $set: {
       number: req.body.number,
-      topic: req.body.topic,
+      // topic: req.body.topic,
       heading: req.body.heading,
       description: req.body.description,
       url: req.body.url,
