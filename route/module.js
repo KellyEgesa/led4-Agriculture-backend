@@ -60,7 +60,7 @@ router.put("/:id", [auth, editor], async (req, res) => {
   const { error } = validateModules(req.body);
   if (error) return res.status(400).send(error.details[0].message);
 
-  modules.findByIdAndUpdate(req.params.id, {
+  await modules.findByIdAndUpdate(req.params.id, {
     $set: {
       number: req.body.number,
       topic: req.body.topic,
