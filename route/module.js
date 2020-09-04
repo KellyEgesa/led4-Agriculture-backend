@@ -62,7 +62,7 @@ router.put("/:id", [auth, editor], async (req, res) => {
 
   const newModule = modules.findByIdAndUpdate(req.params.id, {
     number: req.body.number,
-    topic: topics,
+    topic: req.body.topic,
     heading: req.body.heading,
     description: req.body.description,
     url: req.body.url,
