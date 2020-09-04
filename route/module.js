@@ -60,18 +60,17 @@ router.put("/:id", [auth, editor], async (req, res) => {
   const { error } = validateModules(req.body);
   if (error) return res.status(400).send(error.details[0].message);
 
-  const newModule = modules.findByIdAndUpdate(req.params.id, {
-    // $set: {
-    //   number: req.body.number,
-    //   topic: req.body.topic,
-    //   heading: req.body.heading,
-    //   description: req.body.description,
-    //   url: req.body.url,
-    //   filename: req.body.filename,
-    //   added: req.body.added,
-    // },
-  });
-
+  console.log(req.params.id);
+  // const newModule = modules.findByIdAndUpdate(req.params.id, {});
+  // $set: {
+  //   number: req.body.number,
+  //   topic: req.body.topic,
+  //   heading: req.body.heading,
+  //   description: req.body.description,
+  //   url: req.body.url,
+  //   filename: req.body.filename,
+  //   added: req.body.added,
+  // },
   res.send(newModule);
 });
 
