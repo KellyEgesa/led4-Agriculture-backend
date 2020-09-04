@@ -6,7 +6,6 @@ var multer = require("multer");
 const router = express.Router();
 const GridFsStorage = require("multer-gridfs-storage");
 const mongoose = require("mongoose");
-const gridStream = require("gridfs-stream");
 
 const url = `mongodb+srv://KellyEgesa:led4Agriculture1007@cluster0.g8jcv.mongodb.net/<dbname>?retryWrites=true&w=majority`;
 
