@@ -1,6 +1,8 @@
 const editor = require("../middleware/editor");
 const auth = require("../middleware/auth");
 const admin = require("../middleware/admin");
+const { topic } = require("../models/topic");
+const { modules } = require("../models/module");
 var express = require("express");
 var multer = require("multer");
 const router = express.Router();
@@ -57,11 +59,46 @@ router.get("/load/:filename", (req, res) => {
   });
 });
 
+router.delete("/:id", [auth, editor], async (req, res) => {
+  const topics = await topic.findByIdAndDelete(req.params.id);
+  if (!topics) return res.status(404).send("Page not found");
+
+  const delModules = await modules.find({ topic: topics });
+  modules.deleteMany({ topic: topics });
+
+  try {
+    let files = [];
+    for (let i = 0; i < delModules.length; i++) {
+      files.push(delModule[i].filename);
+    }
+
+    for (let i = 0; i < files.length; i++) {
+      gfs.find({ filename: files[i] }).toArray((err, files) => {
+        if (!files[0] || files.length === 0) {
+          return res.status(200).json({
+            success: false,
+            message: "No files available",
+          });
+        }
+        gfs.delete(files[0]._id, (err, data) => {
+          if (err) {
+            return res.status(404).json({ err: err });
+          }
+        });
+      });
+    }
+
+    res.status(200);
+  } catch (error) {
+    res.send(error);
+  }
+});
+
 router.get("/delete/:filename", [auth, editor], (req, res) => {
   gfs.find({ filename: req.params.filename }).toArray((err, files) => {
     if (!files[0] || files.length === 0) {
       return res.status(200).json({
-        success: false, 
+        success: false,
         message: "No files available",
       });
     }

@@ -4,7 +4,7 @@ const auth = require("../middleware/auth");
 const admin = require("../middleware/admin");
 const { topic, validateTopic } = require("../models/topic");
 var ObjectID = require("mongodb").ObjectID;
-const { modules, validateModules } = require("../models/module");
+const { modules } = require("../models/module");
 const express = require("express");
 const router = express.Router();
 
@@ -56,15 +56,6 @@ router.put("/:id", [auth, editor], async (req, res) => {
 
   await modules.update({ topic: topics }, { topic: topic });
   res.send(topic);
-});
-
-router.delete("/:id", [auth, editor], async (req, res) => {
-  const topics = await topic.findByIdAndDelete(req.params.id);
-  if (!topics) return res.status(404).send("Page not found");
-
-  const delModules = await modules.find({ topic: topics });
-  modules.deleteMany({ topic: topics });
-  res.send(delModules);
 });
 
 module.exports = router;
