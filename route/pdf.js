@@ -60,19 +60,18 @@ router.get("/load/:filename", (req, res) => {
 });
 
 router.delete("/:id", [auth, editor], async (req, res) => {
-  consolw.log("here");
-  // const topics = await topic.findByIdAndDelete(req.params.id);
-  // if (!topics) return res.status(404).send("Page not found");
+  const topics = await topic.findByIdAndDelete(req.params.id);
+  if (!topics) return res.status(404).send("Page not found");
 
-  // const delModules = await modules.find({ topic: topics });
-  // modules.deleteMany({ topic: topics });
+  const delModules = await modules.find({ topic: topics });
+  modules.deleteMany({ topic: topics });
 
   // try {
-  //   let filess = [];
-  //   for (let i = 0; i < delModules.length; i++) {
-  //     filess.push(delModule[i].filename);
-  //   }
-
+  let filess = [];
+  for (let i = 0; i < delModules.length; i++) {
+    filess.push(delModule[i].filename);
+  }
+  console.log(filess);
   //   // for (let i = 0; i < files.length; i++) {
   //   //   gfs.find({ filename: filess[i] }).toArray((err, files) => {
   //   //     if (!files[0] || files.length === 0) {
