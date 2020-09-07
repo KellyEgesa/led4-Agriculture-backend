@@ -72,7 +72,7 @@ router.delete("/:id", [auth, editor], async (req, res) => {
       filess.push(delModules[i].filename);
     }
 
-    for (let i = 0; i < files.length; i++) {
+    for (let i = 0; i < filess.length; i++) {
       console.log(filess[i]);
       // gfs.find({ filename: filess[i] }).toArray((err, files) => {
       //   if (!files[0] || files.length === 0) {
