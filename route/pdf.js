@@ -67,13 +67,13 @@ router.delete("/:id", [auth, editor], async (req, res) => {
   modules.deleteMany({ topic: topics });
 
   try {
-    let files = [];
+    let filess = [];
     for (let i = 0; i < delModules.length; i++) {
-      files.push(delModule[i].filename);
+      filess.push(delModule[i].filename);
     }
 
     for (let i = 0; i < files.length; i++) {
-      gfs.find({ filename: files[i] }).toArray((err, files) => {
+      gfs.find({ filename: filess[i] }).toArray((err, files) => {
         if (!files[0] || files.length === 0) {
           return res.status(200).json({
             success: false,
@@ -84,11 +84,12 @@ router.delete("/:id", [auth, editor], async (req, res) => {
           if (err) {
             return res.status(404).json({ err: err });
           }
+          filess.shift();
         });
       });
     }
-
-    res.status(200);
+    if ((filess.length = 0)) return res.status(200);
+    return res.status(500);
   } catch (error) {
     res.send(error);
   }
