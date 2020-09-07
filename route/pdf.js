@@ -90,7 +90,7 @@ router.delete("/:id", [auth, editor], async (req, res) => {
     // }
     // if ((filess.length = 0)) return res.status(200);
     // return res.status(500);
-    console.log(filess);
+    res.status(500);
   } catch (error) {
     res.send(error);
   }
