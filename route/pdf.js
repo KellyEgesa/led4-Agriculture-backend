@@ -69,7 +69,7 @@ router.delete("/:id", [auth, editor], async (req, res) => {
   // try {
   let filess = [];
   for (let i = 0; i < delModules.length; i++) {
-    filess.push(delModule[i].filename);
+    filess.push(delModules[i].filename);
   }
   console.log(filess);
   //   // for (let i = 0; i < files.length; i++) {
