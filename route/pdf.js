@@ -85,6 +85,7 @@ router.delete("/:id", [auth, editor], async (req, res) => {
             return res.status(404).json({ err: err });
           }
           filess.shift();
+          console.log(filess);
         });
       });
     }
