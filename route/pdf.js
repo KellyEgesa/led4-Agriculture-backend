@@ -60,40 +60,41 @@ router.get("/load/:filename", (req, res) => {
 });
 
 router.delete("/:id", [auth, editor], async (req, res) => {
-  const topics = await topic.findByIdAndDelete(req.params.id);
-  if (!topics) return res.status(404).send("Page not found");
+  consolw.log("here");
+  // const topics = await topic.findByIdAndDelete(req.params.id);
+  // if (!topics) return res.status(404).send("Page not found");
 
-  const delModules = await modules.find({ topic: topics });
-  modules.deleteMany({ topic: topics });
+  // const delModules = await modules.find({ topic: topics });
+  // modules.deleteMany({ topic: topics });
 
-  try {
-    let filess = [];
-    for (let i = 0; i < delModules.length; i++) {
-      filess.push(delModule[i].filename);
-    }
+  // try {
+  //   let filess = [];
+  //   for (let i = 0; i < delModules.length; i++) {
+  //     filess.push(delModule[i].filename);
+  //   }
 
-    // for (let i = 0; i < files.length; i++) {
-    //   gfs.find({ filename: filess[i] }).toArray((err, files) => {
-    //     if (!files[0] || files.length === 0) {
-    //       return res.status(200).json({
-    //         success: false,
-    //         message: "No files available",
-    //       });
-    //     }
-    //     gfs.delete(files[0]._id, (err, data) => {
-    //       if (err) {
-    //         return res.status(404).json({ err: err });
-    //       }
-    //       filess.shift();
-    //     });
-    //   });
-    // }
-    // if ((filess.length = 0)) return res.status(200);
-    // return res.status(500);
-    res.status(500);
-  } catch (error) {
-    res.send(error);
-  }
+  //   // for (let i = 0; i < files.length; i++) {
+  //   //   gfs.find({ filename: filess[i] }).toArray((err, files) => {
+  //   //     if (!files[0] || files.length === 0) {
+  //   //       return res.status(200).json({
+  //   //         success: false,
+  //   //         message: "No files available",
+  //   //       });
+  //   //     }
+  //   //     gfs.delete(files[0]._id, (err, data) => {
+  //   //       if (err) {
+  //   //         return res.status(404).json({ err: err });
+  //   //       }
+  //   //       filess.shift();
+  //   //     });
+  //   //   });
+  //   // }
+  //   // if ((filess.length = 0)) return res.status(200);
+  //   // return res.status(500);
+  //   res.status(500);
+  // } catch (error) {
+  //   res.send(error);
+  // }
 });
 
 router.get("/delete/:filename", [auth, editor], (req, res) => {
