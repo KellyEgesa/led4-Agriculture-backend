@@ -73,23 +73,22 @@ router.delete("/:id", [auth, editor], async (req, res) => {
     }
 
     for (let i = 0; i < filess.length; i++) {
-      console.log(filess[i]);
-      // gfs.find({ filename: filess[i] }).toArray((err, files) => {
-      //   if (!files[0] || files.length === 0) {
-      //     return res.status(200).json({
-      //       success: false,
-      //       message: "No files available",
-      //     });
-      //   }
-      //   gfs.delete(files[0]._id, (err, data) => {
-      //     if (err) {
-      //       return res.status(404).json({ err: err });
-      //     }
-      //     filess.shift();
-      //   });
-      // });
+      gfs.find({ filename: filess[i] }).toArray((err, files) => {
+        if (!files[0] || files.length === 0) {
+          return res.status(200).json({
+            success: false,
+            message: "No files available",
+          });
+        }
+        gfs.delete(files[0]._id, (err, data) => {
+          if (err) {
+            return res.status(404).json({ err: err });
+          }
+          filess.shift();
+        });
+      });
     }
-    if ((filess.length = 0)) return res.status(200);
+    if (filess.length === 0) return res.status(200);
     return res.status(500);
   } catch (error) {
     res.send(error);
