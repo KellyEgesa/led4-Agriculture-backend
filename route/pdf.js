@@ -80,6 +80,7 @@ router.delete("/:id", [auth, editor], async (req, res) => {
             message: "No files available",
           });
         }
+        return res.status(500);
         gfs.delete(files[0]._id, (err, data) => {
           if (err) {
             return res.status(404).json({ err: err });
