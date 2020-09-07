@@ -71,7 +71,7 @@ router.delete("/:id", [auth, editor], async (req, res) => {
     for (let i = 0; i < delModules.length; i++) {
       filess.push(delModules[i].filename);
     }
-
+    let errors = [];
     for (let i = 0; i < filess.length; i++) {
       gfs.find({ filename: filess[i] }).toArray((err, files) => {
         if (!files[0] || files.length === 0) {
@@ -82,15 +82,13 @@ router.delete("/:id", [auth, editor], async (req, res) => {
         }
         gfs.delete(files[0]._id, (err, data) => {
           if (err) {
-            return res.status(404).json({ err: err });
+            errors.push("Not deleted " + filess[i]);
           }
           filess.shift();
-          console.log(filess);
         });
       });
     }
-    if (filess.length === 0) return res.status(200);
-    return res.status(500);
+    res.status(200).send(errors);
   } catch (error) {
     res.send(error);
   }
@@ -113,5 +111,7 @@ router.get("/delete/:filename", [auth, editor], (req, res) => {
     });
   });
 });
+
+let a = [];
 
 module.exports = router;
