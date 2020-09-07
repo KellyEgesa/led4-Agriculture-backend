@@ -61,7 +61,7 @@ router.get("/delete/:filename", [auth, editor], (req, res) => {
   gfs.find({ filename: req.params.filename }).toArray((err, files) => {
     if (!files[0] || files.length === 0) {
       return res.status(200).json({
-        success: false,
+        success: false, 
         message: "No files available",
       });
     }
@@ -75,31 +75,4 @@ router.get("/delete/:filename", [auth, editor], (req, res) => {
   });
 });
 
-router.get("/download/:filename", (req, res) => {
-  gfs.files.find({ filename: req.params.filename }).toArray((err, files) => {
-    if (!files[0] || files.length === 0) {
-      return res.status(200).json({
-        success: false,
-        message: "No files available",
-      });
-    }
-
-    var read_stream = gfs.createReadStream(files[0]._id);
-    let file = [];
-    read_stream.on("data", function (chunk) {
-      file.push(chunk);
-    });
-    read_stream.on("error", (e) => {
-      console.log(e);
-      reject(e);
-    });
-    return read_stream.on("end", function () {
-      file = Buffer.concat(file);
-      const pdf = `data:application/pdf;base64,${Buffer(file).toString(
-        "base64"
-      )}`;
-      res.send(pdf);
-    });
-  });
-});
 module.exports = router;

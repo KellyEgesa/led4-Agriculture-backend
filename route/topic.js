@@ -59,7 +59,7 @@ router.put("/:id", [auth, editor], async (req, res) => {
 });
 
 router.delete("/:id", [auth, editor], async (req, res) => {
-  await topic.findByIdAndDelete(req.params.id);
+  const topics = await topic.findByIdAndDelete(req.params.id);
   if (!topics) return res.status(404).send("Page not found");
 
   const delModules = modules.find({ topic: topics });
