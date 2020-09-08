@@ -235,7 +235,11 @@ router.put("/module/mark/:id", async (req, res) => {
 
 setInterval(async function () {
   try {
-    await User.deleteMany({ confirmed: false, delTime: { $gt: Date.now() } });
+    // const a = await User.find({
+    //   confirmed: false,
+    //   delTime: { $lt: Date.now() },
+    // });
+    await User.deleteMany({ confirmed: false, delTime: { $lt: Date.now() } });
   } catch (ex) {
     console.log(ex);
   }

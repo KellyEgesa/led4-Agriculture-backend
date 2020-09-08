@@ -112,6 +112,4 @@ router.get("/delete/:filename", [auth, editor], (req, res) => {
   });
 });
 
-let a = [];
-
 module.exports = router;
