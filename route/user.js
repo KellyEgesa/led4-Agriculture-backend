@@ -3,11 +3,8 @@ const crypto = require("crypto");
 const config = require("config");
 const { User, validate, validateUser1 } = require("../models/user");
 const express = require("express");
-const _ = require("lodash");
 var ObjectID = require("mongodb").ObjectID;
-var ObjectId = require("mongoose").Types.ObjectId;
 const { email } = require("../email/email");
-const { send } = require("process");
 const router = express.Router();
 
 router.post("/", async (req, res) => {
@@ -190,10 +187,6 @@ router.post("/module/:id", async (req, res) => {
   const ob = ObjectID.isValid(modules);
   if (!ob) return res.status(404).send("Page not found");
 
-  const moduleid = modules.toString();
-
-  // console.log(user.module[2].moduleid === moduleid);
-
   if (user.module.length > 0) {
     for (let i = 0; i < user.module.length; i++) {
       if (user.module[i].moduleid === moduleid) {
@@ -233,12 +226,13 @@ router.put("/module/mark/:id", async (req, res) => {
   }
 });
 
+router.get("/module/:id", async (req, res) => {
+  let user = await User.findById(req.params.id).select("module");
+  res.send(user);
+});
+
 setInterval(async function () {
   try {
-    // const a = await User.find({
-    //   confirmed: false,
-    //   delTime: { $lt: Date.now() },
-    // });
     await User.deleteMany({ confirmed: false, delTime: { $lt: Date.now() } });
   } catch (ex) {
     console.log(ex);
