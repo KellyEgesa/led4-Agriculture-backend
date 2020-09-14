@@ -189,7 +189,7 @@ router.post("/module/:id", async (req, res) => {
 
   if (user.module.length > 0) {
     for (let i = 0; i < user.module.length; i++) {
-      if (user.module[i].moduleid === moduleid) {
+      if (user.module[i].moduleid === modules) {
         return res.send(user.module[i]);
       }
     }
@@ -199,7 +199,7 @@ router.post("/module/:id", async (req, res) => {
     });
     res.send(await user.save());
   } else {
-    user.module = [{ moduleid: moduleid, marks: "not yet done" }];
+    user.module = [{ moduleid: modules, marks: "not yet done" }];
     await user.save();
     res.send(user.module);
   }
