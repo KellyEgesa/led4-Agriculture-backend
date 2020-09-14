@@ -194,7 +194,7 @@ router.post("/module/:id", async (req, res) => {
       }
     }
     user.module.push({
-      moduleid: moduleid,
+      moduleid: modules,
       marks: "not yet done",
     });
     res.send(await user.save());
