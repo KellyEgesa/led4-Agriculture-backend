@@ -3,6 +3,7 @@ const auth = require("../middleware/auth");
 const admin = require("../middleware/admin");
 const { topic } = require("../models/topic");
 const { modules } = require("../models/module");
+const { Question } = require("../models/questions");
 var express = require("express");
 var multer = require("multer");
 const router = express.Router();
@@ -65,6 +66,10 @@ router.delete("/:id", [auth, editor], async (req, res) => {
 
   const delModules = await modules.find({ topic: topics });
   modules.deleteMany({ topic: topics });
+
+  for (let i = 0; i < delModules.length; i++) {
+    Question.deleteMany({ modules: delModules[i] });
+  }
 
   try {
     let filess = [];

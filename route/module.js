@@ -26,12 +26,6 @@ router.post("/", [auth, editor], async (req, res) => {
   const topics = await topic.findById(req.body.topic);
   if (!topics) return res.status(404).send("topic doesnt exist");
 
-  const checkNumber = await modules.findOne({
-    topic: topics,
-    number: req.body.number,
-  });
-  if (checkNumber) return res.status(400).send("Number already exists");
-
   moduless = new modules({
     number: req.body.number,
     topic: topics,
